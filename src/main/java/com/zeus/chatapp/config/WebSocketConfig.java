@@ -1,6 +1,7 @@
 package com.zeus.chatapp.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
@@ -14,7 +15,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     // Register a STOMP (Simple Text Oriented Messaging Protocol) endpoint
     // to listen to client connections
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
+    public void registerStompEndpoints(@NonNull StompEndpointRegistry registry) {
         // URL clients will use to connect to the WebSocket server
         registry.addEndpoint("/ws")
                 // use web-socket if available otherwise fallback to other techniques (like long polling)
@@ -22,7 +23,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     }
 
     @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
+    public void configureMessageBroker(@NonNull MessageBrokerRegistry registry) {
         // messages sent from clients to the server with destinations starting
         // with "/app" will be routed to methods annotated with @MessageMapping
         // in this application.
