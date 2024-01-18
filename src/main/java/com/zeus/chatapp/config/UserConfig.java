@@ -22,14 +22,25 @@ public class UserConfig {
                 .name("John Doe")
                 .email("john@gmail.com")
                 .mobileNo("0123456789")
+                .username("john")
+                .password("1234")
+                .enabled(true)
                 .build();
             var alex = User.builder()
                 .name("Alex Max")
                 .email("alex@gmail.com")
                 .mobileNo("9876543210")
                 .build();
+            var admin = User.builder()
+                .name("Damian Chamel")
+                .email("bdamianchamel@gmail.com")
+                .mobileNo("342341238")
+                .username("admin")
+                .password("admin")
+                .enabled(true)
+                .build();
             
-            userRepository.saveAll(List.of(john, alex));
+            userRepository.saveAll(List.of(admin, john, alex));
         };
     }
 }

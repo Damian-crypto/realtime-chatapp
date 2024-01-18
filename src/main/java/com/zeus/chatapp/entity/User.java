@@ -38,4 +38,17 @@ public class User {
             nullable = false // to indicate that email field cannot be null
     )
     private String mobileNo;
+
+    // Spring Security need these...
+    @Column(
+        name = "username",
+        unique = true
+    )
+    private String username;
+    @Column(
+        name = "authority"
+    )
+    private String authority;
+    private String password;
+    private boolean enabled;
 }
