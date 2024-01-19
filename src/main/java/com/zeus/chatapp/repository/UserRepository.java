@@ -17,13 +17,22 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByMobileNo(String mobileNo);
 
-    @Transactional // meaning that any database operations performed within the marked method will be executed within a transaction. If the transaction is unsuccessful, the changes will be rollback (not save).
-    @Modifying // used to enhance the @Query annotation so that we can execute not only SELECT queries, but also INSERT, UPDATE, DELETE, and even DDL queries
-    @Query( // mechanism to define custom JPQL (Java Persistence Query Language) and native SQL queries directly on repository methods.
+    Optional<User> findUserByEmail(String email);
+
+    Optional<User> findUserByUserName(String userName);
+
+    // @Transactional used for that any database operations performed within the
+    // marked method will be executed within a transaction. If the transaction
+    // is unsuccessful, the changes will be rollback (not save).
+    @Transactional
+    // @Modifying is used to enhance the @Query annotation so that we can execute
+    // not only SELECT queries, but also INSERT, UPDATE, DELETE, and even DDL queries.
+    @Modifying
+    // @Query provides a mechanism to define custom JPQL (Java Persistence Query Language)
+    // and native SQL queries directly on repository methods.
+    @Query(
             value = "UPDATE tbl_user SET name = ?1 WHERE mobile_no = ?2",
             nativeQuery = true
     )
     void updateNameByMobileNo(String name, String mobileNo);
-
-    Optional<User> findUserByEmail(String email);
 }

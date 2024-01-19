@@ -7,20 +7,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-// @EnableWebSecurity
 public class SecurityConfig {
 
     @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
     
     // Tells the Spring container that the method will return an object that
     // should be registered as a bean. The Spring container will then manage the
@@ -29,6 +28,7 @@ public class SecurityConfig {
     // @Bean
     // User credentials are stored in memory rather than in a persistent storage
     // public InMemoryUserDetailsManager userDetailsManager() {
+    //     // Use in-memory users for testing purposes.
     //     UserDetails damianUser = User
     //                                 .builder()
     //                                 .username("damian")
@@ -49,7 +49,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            // Configuring the X-Frame-Options header to disable it.
+            // The X-Frame-Options header is used to control whether a browser
+            // should be allowed to render a page in a <frame>, <iframe>, <embed>,
+            // or <object>. 
             .headers(headers -> headers.frameOptions(frames -> frames.disable()))
+            // CSRF is a unique token in each form submission and validating that
+            // token on the server to ensure that the request is legitimate.
+            // Used to confirm correct user.
             .csrf(csrf -> csrf.disable())
             // Define the authorization rules for different HTTP requests.
             .authorizeHttpRequests(
@@ -76,29 +83,37 @@ public class SecurityConfig {
     // AuthenticationManagerBuilder instance to this method at runtime.
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-            .dataSource(dataSource)
-            .usersByUsernameQuery(
-                "SELECT username, password, enabled FROM tbl_user WHERE tbl_user.username=?"
-            )
-            .authoritiesByUsernameQuery(
-                "SELECT username, authority from tbl_user WHERE tbl_user.username=?"
-            );
-            // .withDefaultSchema()
-            // .withUser(
-            //     User
-            //         .builder()
-            //         .username("damian")
-            //         .password("1234")
-            //         .roles("USER")
-            //         .build())
-            // .withUser(
-            //     User
-            //         .builder()
-            //         .username("admin")
-            //         .password("admin")
-            //         .roles("ADMIN", "USER")
-            //         .build());
+        // Authorize users through Spring Data JPA.
+        auth.userDetailsService(userDetailsService);
+
+        // Authorize users according to a custom 'user' tables.
+        // auth.jdbcAuthentication()
+        //     .dataSource(dataSource)
+        //     .usersByUsernameQuery(
+        //         "SELECT username, password, enabled FROM tbl_user WHERE tbl_user.username=?"
+        //     )
+        //     .authoritiesByUsernameQuery(
+        //         "SELECT username, authority from tbl_user WHERE tbl_user.username=?"
+        //     );
+        
+        // Authorize users according to the Spring's default 'user' schema.
+        // auth.jdbcAuthentication()
+        //     .dataSource(dataSource)
+        //     .withDefaultSchema()
+        //     .withUser(
+        //         User
+        //             .builder()
+        //             .username("damian")
+        //             .password("1234")
+        //             .roles("USER")
+        //             .build())
+        //     .withUser(
+        //         User
+        //             .builder()
+        //             .username("admin")
+        //             .password("admin")
+        //             .roles("ADMIN", "USER")
+        //             .build());
     }
 
     @Bean

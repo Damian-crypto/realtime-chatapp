@@ -14,6 +14,13 @@ import com.zeus.chatapp.repository.UserRepository;
 // based on the methods annotated with @Bean and manages the lifecycle of these beans.
 @Configuration
 public class UserConfig {
+
+    // @Bean
+    // This will be provided the required dependency for UserDetailsService for
+    // the Spring context (No need to annotate @Service for "MyUserDetailsService").
+    // MyUserDetailsService userDetailsService() {
+    //     return new MyUserDetailsService();
+    // }
     
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository) {
@@ -22,8 +29,9 @@ public class UserConfig {
                 .name("John Doe")
                 .email("john@gmail.com")
                 .mobileNo("0123456789")
-                .username("john")
+                .userName("john")
                 .password("1234")
+                .authority("USER")
                 .enabled(true)
                 .build();
             var alex = User.builder()
@@ -35,8 +43,9 @@ public class UserConfig {
                 .name("Damian Chamel")
                 .email("bdamianchamel@gmail.com")
                 .mobileNo("342341238")
-                .username("admin")
+                .userName("admin")
                 .password("admin")
+                .authority("ADMIN, USER")
                 .enabled(true)
                 .build();
             

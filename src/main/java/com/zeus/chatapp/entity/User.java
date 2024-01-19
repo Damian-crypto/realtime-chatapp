@@ -44,7 +44,7 @@ public class User {
         name = "username",
         unique = true
     )
-    private String username;
+    private String userName;
     @Column(
         name = "authority"
     )
