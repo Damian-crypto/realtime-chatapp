@@ -13,10 +13,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor // generates a constructor with 1 parameter for each field in your class
 @Table(
         name = "tbl_user",
-        uniqueConstraints = @UniqueConstraint(
-                name = "unique_mobile",
-                columnNames = "mobile_no"
-        )
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "unique_mobile_username",
+                        columnNames = { "mobileNo", "userName" }
+                )
+        }
 )
 public class User {
     @Id // userId is the primary-key of this table
@@ -35,14 +37,14 @@ public class User {
     private String email;
     @Column(
             name = "mobile_no",
-            nullable = false // to indicate that email field cannot be null
+            nullable = false // to indicate that mobile field cannot be null
     )
     private String mobileNo;
 
     // Spring Security need these...
     @Column(
         name = "username",
-        unique = true
+        nullable = false
     )
     private String userName;
     @Column(

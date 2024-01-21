@@ -68,6 +68,25 @@
       <artifactId>h2</artifactId>
       <scope>runtime</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.unboundid/unboundid-ldapsdk -->
+    <dependency>
+        <groupId>com.unboundid</groupId>
+        <artifactId>unboundid-ldapsdk</artifactId>
+        <version>6.0.11</version>
+        <scope>runtime</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework.ldap/spring-ldap-core -->
+    <dependency>
+        <groupId>org.springframework.ldap</groupId>
+        <artifactId>spring-ldap-core</artifactId>
+        <version>3.2.1</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-ldap -->
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-ldap</artifactId>
+        <version>6.2.1</version>
+    </dependency>
   </dependencies>
 
   <build>

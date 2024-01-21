@@ -5,10 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 //@DataJpaTest // are transactional and roll back at the end of each test
 @SpringBootTest // ApplicationContext used in your tests
 class UserRepositoryTest {
@@ -20,17 +16,26 @@ class UserRepositoryTest {
     public void saveUser() {
         userRepository.save(
             User.builder()
-                    .email("john1999@outlook.com")
-                    .name("John Doe")
-                    .mobileNo("012-345-6789")
-                    .build());
+                .name("John Doe")
+                .email("john@gmail.com")
+                .mobileNo("0123456789")
+                .userName("john")
+                .password("1234")
+                .authority("USER")
+                .enabled(true)
+                .build()
+        );
 
         userRepository.save(
             User.builder()
-                    .email("sher.lock@gmail.com")
-                    .name("Sherlock Holmes")
-                    .mobileNo("987-543-210")
-                    .build()
+                .name("Alex Max")
+                .email("alex@gmail.com")
+                .mobileNo("9876543210")
+                .userName("alex")
+                .password("abcd")
+                .authority("USER")
+                .enabled(true)
+                .build()
         );
     }
 
@@ -42,12 +47,12 @@ class UserRepositoryTest {
 
     @Test
     public void getUserByMobile() {
-        var users = userRepository.findByMobileNo("012-345-6789");
+        var users = userRepository.findByMobileNo("9876543210");
         System.out.println(users);
     }
 
     @Test
     public void updateUserByMobile() {
-        userRepository.updateNameByMobileNo("John Maxwell", "012-345-6789");
+        userRepository.updateNameByMobileNo("John Maxwell", "0123456789");
     }
 }

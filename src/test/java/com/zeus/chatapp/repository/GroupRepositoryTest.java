@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class GroupRepositoryTest {
 
@@ -20,25 +18,34 @@ class GroupRepositoryTest {
     @Test
     public void addMembersToGroup() {
         var john = User.builder()
-                .email("john1999@outlook.com")
-                .name("John Doe")
-                .mobileNo("012-345-6789")
-                .build();
+            .name("John Doe")
+            .email("john@gmail.com")
+            .mobileNo("0123456789")
+            .userName("john")
+            .password("1234")
+            .authority("USER")
+            .enabled(true)
+            .build();
+        var alex = User.builder()
+            .name("Alex Max")
+            .email("alex@gmail.com")
+            .mobileNo("9876543210")
+            .userName("alex")
+            .password("abcd")
+            .authority("USER")
+            .enabled(true)
+            .build();
 
-        var sherlock = User.builder()
-                .email("sher.lock@gmail.com")
-                .name("Sherlock Holmes")
-                .mobileNo("987-543-210")
-                .build();
-
-        userRepository.save(john);
-        userRepository.save(sherlock);
+        if (alex != null)
+            userRepository.save(alex);
+        if (john != null)
+            userRepository.save(john);
 
         Group group = Group.builder()
-                .groupId(1L)
-                .build();
+            .groupId(1L)
+            .build();
         group.addMember(john);
-        group.addMember(sherlock);
+        group.addMember(alex);
 
         groupRepository.save(group);
         System.out.println(groupRepository.findByGroupId(1L));

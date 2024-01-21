@@ -38,6 +38,10 @@ public class UserConfig {
                 .name("Alex Max")
                 .email("alex@gmail.com")
                 .mobileNo("9876543210")
+                .userName("alex")
+                .password("abcd")
+                .authority("USER")
+                .enabled(true)
                 .build();
             var admin = User.builder()
                 .name("Damian Chamel")
@@ -49,7 +53,10 @@ public class UserConfig {
                 .enabled(true)
                 .build();
             
-            userRepository.saveAll(List.of(admin, john, alex));
+            var users = List.of(admin, john, alex);
+            if (!users.isEmpty()) {
+                userRepository.saveAll(users);
+            }
         };
     }
 }
