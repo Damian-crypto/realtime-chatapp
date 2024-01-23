@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zeus.chatapp.entity.User;
+import com.zeus.chatapp.model.User;
 import com.zeus.chatapp.repository.UserRepository;
 
 @RestController

@@ -1,7 +1,7 @@
 package com.zeus.chatapp.controller;
 
-import com.zeus.chatapp.entity.MessagePayload;
-import com.zeus.chatapp.entity.User;
+import com.zeus.chatapp.model.MessagePayload;
+import com.zeus.chatapp.model.User;
 import com.zeus.chatapp.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;

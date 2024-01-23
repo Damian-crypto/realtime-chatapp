@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.zeus.chatapp.entity.User;
+import com.zeus.chatapp.model.User;
 import com.zeus.chatapp.repository.UserRepository;
 
 // @Service is used for annotating classes as service components, and it

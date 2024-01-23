@@ -1,30 +1,35 @@
 package com.zeus.chatapp.config;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.ldap.core.support.BaseLdapPathContextSource;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.ldap.LdapPasswordComparisonAuthenticationManagerFactory;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
 
-    @Autowired
-    private DataSource dataSource;
+    // @Autowired
+    // private DataSource dataSource;
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private AuthenticationConfiguration authenticationConfiguration;
+
+    @Autowired
+    private JWTRequestFilter jwtRequestFilter;
     
     // Tells the Spring container that the method will return an object that
     // should be registered as a bean. The Spring container will then manage the
@@ -53,7 +58,38 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Normal Configurations
+        // JWT Configurations
+        http
+            // Configuring the X-Frame-Options header to disable it.
+            // The X-Frame-Options header is used to control whether a browser
+            // should be allowed to render a page in a <frame>, <iframe>, <embed>,
+            // or <object>. 
+            .headers(headers -> headers.frameOptions(frames -> frames.disable()))
+            // CSRF is a unique token in each form submission and validating that
+            // token on the server to ensure that the request is legitimate.
+            // Used to confirm correct user.
+            .csrf(csrf -> csrf.disable())
+            // Define the authorization rules for different HTTP requests.
+            .authorizeHttpRequests(
+                (requests) -> {
+                    try {
+                        requests
+                            .requestMatchers("/", "/h2-console/**", "/authenticate").permitAll()
+                            // Any other request should be authenticated
+                            .anyRequest().authenticated()
+                            .and()
+                            .sessionManagement()
+                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            );
+        
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+        // // Normal Configurations
         // http
         //     // Configuring the X-Frame-Options header to disable it.
         //     // The X-Frame-Options header is used to control whether a browser
@@ -72,7 +108,7 @@ public class SecurityConfig {
         //                         // "/home" is permitted for all ADMINs and USERs
         //                         .requestMatchers("/home").hasAnyRole("ADMIN", "USER")
         //                         // "/" is permitted for all users
-        //                         .requestMatchers("/", "/h2-console/**").permitAll()
+        //                         .requestMatchers("/", "/h2-console/**", "/authenticate").permitAll()
         //                         // Any other request should be authenticated
         //                         .anyRequest().authenticated()
         //     )
@@ -82,11 +118,11 @@ public class SecurityConfig {
         //     .logout((logout) -> logout.permitAll());
 
         // LDAP Configurations
-        http
-            .authorizeHttpRequests(
-                (authorize) -> authorize.anyRequest().fullyAuthenticated()
-            )
-            .formLogin(Customizer.withDefaults());
+        // http
+        //     .authorizeHttpRequests(
+        //         (authorize) -> authorize.anyRequest().fullyAuthenticated()
+        //     )
+        //     .formLogin(Customizer.withDefaults());
 
         return http.build();
     }
@@ -96,24 +132,8 @@ public class SecurityConfig {
     // AuthenticationManagerBuilder instance to this method at runtime.
     @Autowired
     protected void configureAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-        // Authorize users through LDAP Service
-        auth.ldapAuthentication()
-            // LDAP pattern to locate the user in ldif file
-            .userDnPatterns("uid={0},ou=people")
-            // Specifies the base DN (Distinguished Name) for searching groups in LDAP
-            .groupSearchBase("ou=groups")
-            .contextSource()
-            // URL of the LDAP server
-            .url("ldap://localhost:8389/dc=springframework,dc=org")
-            .and()
-            .passwordCompare()
-            .passwordEncoder(new BCryptPasswordEncoder())
-            // Specifies the attribute in LDAP that holds the user's password
-            .passwordAttribute("userPassword");
-
-
         // Authorize users through Spring Data JPA (JPA -> MySQL).
-        // auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService);
 
         // Authorize users according to a custom 'user' tables (MySQL).
         // auth.jdbcAuthentication()
@@ -143,13 +163,40 @@ public class SecurityConfig {
         //             .password("admin")
         //             .roles("ADMIN", "USER")
         //             .build());
+
+        // Authorize users through LDAP Service
+        // auth.ldapAuthentication()
+        //     // LDAP pattern to locate the user in ldif file
+        //     .userDnPatterns("uid={0},ou=people")
+        //     // Specifies the base DN (Distinguished Name) for searching groups in LDAP
+        //     .groupSearchBase("ou=groups")
+        //     .contextSource()
+        //     // URL of the LDAP server
+        //     .url("ldap://localhost:8389/dc=springframework,dc=org")
+        //     .and()
+        //     .passwordCompare()
+        //     .passwordEncoder(new BCryptPasswordEncoder())
+        //     // Specifies the attribute in LDAP that holds the user's password
+        //     .passwordAttribute("userPassword");
     }
 
-    // @Bean
+    @Bean
     // Reverting to NoOpPasswordEncoder is not considered to be secure.
     // You should instead migrate to using DelegatingPasswordEncoder to support
     // secure password encoding. (because all credentials are in plain text)
-    // public PasswordEncoder getPasswordEncoder() {
-    //     return NoOpPasswordEncoder.getInstance();
-    // }
+    public PasswordEncoder getPasswordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+        UserDetailsService userDetailsService,
+        PasswordEncoder passwordEncoder
+    ) {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
+
+        return new ProviderManager(authenticationProvider);
+    }
 }

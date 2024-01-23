@@ -6,7 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.zeus.chatapp.entity.User;
+import com.zeus.chatapp.model.User;
 import com.zeus.chatapp.repository.UserRepository;
 
 // When the Spring application context is initialized, it scans for classes

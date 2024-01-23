@@ -1,8 +1,8 @@
 package com.zeus.chatapp;
 
-import com.zeus.chatapp.entity.Group;
-import com.zeus.chatapp.entity.MessagePayload;
-import com.zeus.chatapp.entity.User;
+import com.zeus.chatapp.model.Group;
+import com.zeus.chatapp.model.MessagePayload;
+import com.zeus.chatapp.model.User;
 import com.zeus.chatapp.repository.GroupRepository;
 import com.zeus.chatapp.repository.MessageRepository;
 import com.zeus.chatapp.repository.UserRepository;

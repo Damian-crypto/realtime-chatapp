@@ -1,8 +1,5 @@
 package com.zeus.chatapp.config;
 
-import com.zeus.chatapp.entity.MessagePayload;
-import com.zeus.chatapp.entity.MessageType;
-import com.zeus.chatapp.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -10,6 +7,10 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+
+import com.zeus.chatapp.model.MessagePayload;
+import com.zeus.chatapp.model.MessageType;
+import com.zeus.chatapp.model.User;
 
 @Component // annotation used to let Spring detect our custom beans automatically.
 @RequiredArgsConstructor // generates constructors for all final and non-null fields.

@@ -1,4 +1,4 @@
-package com.zeus.chatapp.entity;
+package com.zeus.chatapp.model;
 
 public enum MessageType {
     MESSAGE,

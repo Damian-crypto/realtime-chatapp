@@ -1,11 +1,12 @@
 package com.zeus.chatapp.repository;
 
-import com.zeus.chatapp.entity.Attachment;
-import com.zeus.chatapp.entity.MessagePayload;
-import com.zeus.chatapp.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.zeus.chatapp.model.Attachment;
+import com.zeus.chatapp.model.MessagePayload;
+import com.zeus.chatapp.model.User;
 
 @SpringBootTest
 class MessagePayloadRepositoryTest {

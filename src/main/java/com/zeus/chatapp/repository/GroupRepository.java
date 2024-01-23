@@ -1,8 +1,9 @@
 package com.zeus.chatapp.repository;
 
-import com.zeus.chatapp.entity.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import com.zeus.chatapp.model.Group;
 
 import java.util.List;
 
