@@ -1,0 +1,29 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+
+spring:
+  h2:
+    console:
+      enabled: true
+  
+  datasource:
+    url: jdbc:h2:mem:chat_db
+    driverClassName: org.h2.Driver
+    username: admin
+    password: 1234
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  # security:
+  #   oauth2:
+  #     client:
+  #       registration:
+  #         github:
+  #           clientId: 3ac633b26d99b0ce3335
+  #           # DO NOT PUBLISH `clientSecret`
+  #           clientSecret: e5609c8e901b5627eb82cf5ad7f55529b3c36c20

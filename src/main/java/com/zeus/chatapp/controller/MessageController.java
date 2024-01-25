@@ -46,6 +46,7 @@ public class MessageController {
     public ResponseEntity<AuthenticationResponse> authenticate(
         @RequestBody AuthenticationRequest authenticationRequest
     ) throws Exception {
+
         try {
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

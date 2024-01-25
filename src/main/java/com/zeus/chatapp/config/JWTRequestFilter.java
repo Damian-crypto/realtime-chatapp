@@ -15,6 +15,7 @@ import com.zeus.chatapp.utils.JWTUtil;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -37,15 +38,28 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
     
-        final String authorizationHeader = request.getHeader("Authorization");
+        // final String authorizationHeader = request.getHeader("Authorization");
+        String authorizationHeader = null;
+        if (request.getCookies() != null) {
+            for (final Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("token")) {
+                    authorizationHeader = cookie.getValue();
+                }
+            }
+        }
         
-        final String HEADER_PREFIX = "Bearer ";
+        // final String HEADER_PREFIX = "Bearer ";
 
         String username = null;
         String jwt = null;
 
-        if (authorizationHeader != null && authorizationHeader.startsWith(HEADER_PREFIX)) {
-            jwt = authorizationHeader.substring(HEADER_PREFIX.length());
+        // if (authorizationHeader != null && authorizationHeader.startsWith(HEADER_PREFIX)) {
+        //     jwt = authorizationHeader.substring(HEADER_PREFIX.length());
+        //     username = jwtUtil.extractUsername(jwt);
+        // }
+
+        if (authorizationHeader != null) {
+            jwt = authorizationHeader;
             username = jwtUtil.extractUsername(jwt);
         }
 

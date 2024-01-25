@@ -35,6 +35,19 @@ function connect(event) {
     event.preventDefault();
 }
 
+function getCookie(name) {
+    const cookies = document.cookie.split(';');
+
+    for (const cookie of cookies) {
+        const [ cookieName, cookieValue ] = cookie.trim().split('=');
+        if (cookieName === name) {
+            return cookieValue;
+        }
+    }
+
+    return null;
+}
+
 function onConnect() {
     console.log(`Connected to the web-socket successfully!`);
 

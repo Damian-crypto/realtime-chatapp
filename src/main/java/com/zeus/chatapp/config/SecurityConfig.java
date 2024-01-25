@@ -3,9 +3,11 @@ package com.zeus.chatapp.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,7 +16,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+
+import com.zeus.chatapp.utils.JWTUtil;
 
 @Configuration
 public class SecurityConfig {
@@ -58,6 +64,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // OAuth 2.0 Configurations
+        // http
+        //     .authorizeHttpRequests((requests) ->
+        //         requests
+        //             .requestMatchers("/", "/h2-console/**", "/authenticate").permitAll()
+        //             .anyRequest().authenticated()
+        //     )
+        //     .oauth2Login(Customizer.withDefaults());
+        
         // JWT Configurations
         http
             // Configuring the X-Frame-Options header to disable it.
@@ -74,18 +89,24 @@ public class SecurityConfig {
                 (requests) -> {
                     try {
                         requests
-                            .requestMatchers("/", "/h2-console/**", "/authenticate").permitAll()
+                            .requestMatchers("/login/**", "/h2-console/**", "/authenticate").permitAll()
                             // Any other request should be authenticated
                             .anyRequest().authenticated()
                             .and()
                             .sessionManagement()
                             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }
-            );
+            )
+            .formLogin((login) ->
+                login
+                    .loginPage("/login/login.html")
+                    // .defaultSuccessUrl("/", true)
+                    .permitAll()
+            )
+            .logout(logout -> logout.permitAll());
         
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
