@@ -58,7 +58,7 @@ function onConnect() {
     const config = {};
     const payload = {
         sender: {
-            userId: userId
+            token: getCookie("token")
         },
         messageType: 'JOIN',
     }
