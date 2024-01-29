@@ -1,20 +1,99 @@
 <script setup>
 import MessageCard from './MessageCard.vue';
 import MessageContainerHeader from './MessageContainerHeader.vue';
+import MessageContainerFooter from './MessageContainerFooter.vue';
 
 const props = defineProps(['messages']);
+const messages = props.messages;
+
+var selectedMessage = -1;
+var mouseX = 0, mouseY = 0;
+
+document.addEventListener("mousemove", (evt) => {
+    // console.log(mouseX, mouseY);
+    mouseX = evt.clientX;
+    mouseY = evt.clientY;
+});
+
+function handleMouseClick(evt) {
+    // console.log(mouseX, mouseY);
+    hideContextMenu();
+}
+
+function hideContextMenu() {
+    var contextMenu = document.getElementById("context-menu-container");
+    contextMenu.style.display = "none";
+}
+
+function handleContextMenu(idx) {
+    // console.log(mouseX, mouseY);
+    selectedMessage = idx;
+    
+    var contextMenu = document.getElementById("context-menu-container");
+    contextMenu.style.display = "inline-flex";
+    contextMenu.style.left = `${mouseX}px`;
+    contextMenu.style.top = `${mouseY}px`;
+}
+
+function showInfoSelected(evt) {
+    // console.log(mouseX, mouseY);
+    // console.log(messages);
+    alert(JSON.stringify(messages[1002304][selectedMessage]));
+    hideContextMenu();
+}
+
+function deleteSelected(evt) {
+    hideContextMenu();
+}
 </script>
 
 <template>
-    <div class="message-container">
+    <div class="message-container" @click="handleMouseClick">
         <MessageContainerHeader />
         <template v-for="(msg, index) in messages[1002304]" :key="index">
-            <MessageCard :message="msg" />
+            <div @contextmenu.prevent="handleContextMenu(index)">
+                <MessageCard :message="msg" />
+            </div>
         </template>
+
+        <MessageContainerFooter />
+    </div>
+
+    <div id="context-menu-container">
+        <div id="menu-show-info" class="menu-item" @click="showInfoSelected">Show Information</div>
+        <div id="menu-delete" class="menu-item" @click="deleteSelected">Delete</div>
     </div>
 </template>
 
 <style scoped>
+#context-menu-container {
+    display: none;
+    background-color: #414141;
+    color: white;
+    z-index: 999;
+    /* border: 1px solid #414141; */
+    padding: 3px;
+    border-radius: 8px;
+    position: absolute;
+    flex-direction: column;
+}
+
+.menu-item {
+    /*border: 1px solid red;*/
+
+    display: inline-block;
+    padding: 10px;
+    width: 150px;
+    cursor: default;
+    border-radius: 8px;
+}
+
+.menu-item:hover {
+    background-color: #d9d9d9;
+    color: black;
+    border-radius: 8px;
+}
+
 .message-container {
     border: 1px solid red;
 }

@@ -20,17 +20,20 @@
 
 .search-icon {
     width: 28px;
-    top: 44px;
-    left: 254px;
+    top: 47px;
+    left: 270px;
     padding: 1px;
     position: absolute;
 }
 
 #txt-search {
-    font-size: 24px;
+    font-size: 18px;
     border: none;
+    height: 40px;
     border-radius: 50px;
-    padding: 3px 40px 3px 15px;
+    padding: 0 40px 0 15px;
     width: 250px;
+    background-color: #414141;
+    color: white;
 }
 </style>

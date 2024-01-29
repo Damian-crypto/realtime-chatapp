@@ -15,8 +15,8 @@
 .container {
     border: 1px solid red;
 
-    background-color: #f0faff;
-    color: black;
+    background-color: #313131;
+    color: white;
     display: flex;
     flex-direction: row;
     align-items: center;

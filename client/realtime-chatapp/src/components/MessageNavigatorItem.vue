@@ -5,8 +5,8 @@ const n = messages.length;
 const message = messages[n - 1];
 const content = n > 0 ? message.content : "";
 
-console.log(message);
-console.log(content);
+// console.log(message);
+// console.log(content);
 </script>
 
 <template>
@@ -27,12 +27,25 @@ console.log(content);
 .container {
     border: 1px solid red;
 
-    background-color: #f0faff;
-    color: black;
+    background-color: #00477e;
+    color: white;
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 10px;
+    cursor: default;
+}
+
+.container:hover {
+    border: 1px solid red;
+
+    background-color: #005fa8;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    cursor: default;
 }
 
 .user-image {

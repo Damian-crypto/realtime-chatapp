@@ -28,8 +28,8 @@ var messages = {
 
 <template>
     <div class="app-window">
-        <MessageNavigator class="message-nav" :messages="messages"/>
-        <MessageContainer class="message-container" :messages="messages"/>
+        <MessageNavigator :messages="messages"/>
+        <MessageContainer :messages="messages"/>
     </div>
 </template>
 
@@ -37,13 +37,5 @@ var messages = {
 .app-window {
     display: flex;
     flex-direction: row;
-}
-
-.message-nav {
-    /* flex-grow: 0.1; */
-}
-
-.message-container {
-    flex-grow: 1;
 }
 </style>

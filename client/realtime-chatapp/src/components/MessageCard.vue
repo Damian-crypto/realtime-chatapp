@@ -4,28 +4,22 @@ const props = defineProps(['message']);
 
 <template>
     <div class="chat-message">
-        <div
-            class="message-card"
-            :style="[
-                message.sender == 0
+        <div class="message-card" :style="[
+            message.sender == 0
                 ?
-                { 'background-color': '#f0faff' }
+                { 'background-color': '#313131' }
                 :
-                { 'background-color': '#fffde9' }]">
-            <div
-                class="message-content"
-                :style="[
-                    message.sender == 0
+                { 'background-color': '#414141' }]">
+            <div class="message-content" :style="[
+                message.sender == 0
                     ?
                     { 'text-align': 'left' }
                     :
                     { 'text-align': 'right' }]">
                 {{ message.content }}
             </div>
-            <div
-                class="message-footer"
-                :style="[
-                    message.sender == 0
+            <div class="message-footer" :style="[
+                message.sender == 0
                     ?
                     { 'flex-direction': 'row-reverse' }
                     :
@@ -46,7 +40,7 @@ const props = defineProps(['message']);
 
 .message-content {
     padding: 10px;
-    color: black;
+    color: white;
     font-size: 16px;
 }
 
