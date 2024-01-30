@@ -34,7 +34,7 @@ const props = defineProps(['message']);
 
 <style scoped>
 .message-card {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     padding: 10px;
 }
 

@@ -3,8 +3,9 @@ import MessageCard from './MessageCard.vue';
 import MessageContainerHeader from './MessageContainerHeader.vue';
 import MessageContainerFooter from './MessageContainerFooter.vue';
 
-const props = defineProps(['messages']);
-const messages = props.messages;
+const props = defineProps(['data']);
+const userData = props.data.userData;
+const messages = props.data.messages;
 
 var selectedMessage = -1;
 var mouseX = 0, mouseY = 0;
@@ -38,7 +39,7 @@ function handleContextMenu(idx) {
 function showInfoSelected(evt) {
     // console.log(mouseX, mouseY);
     // console.log(messages);
-    alert(JSON.stringify(messages[1002304][selectedMessage]));
+    alert(JSON.stringify(messages[selectedMessage]));
     hideContextMenu();
 }
 
@@ -49,8 +50,8 @@ function deleteSelected(evt) {
 
 <template>
     <div class="message-container" @click="handleMouseClick">
-        <MessageContainerHeader />
-        <template v-for="(msg, index) in messages[1002304]" :key="index">
+        <MessageContainerHeader :user-data="data['userData']" />
+        <template v-for="(msg, index) in messages" :key="index">
             <div @contextmenu.prevent="handleContextMenu(index)">
                 <MessageCard :message="msg" />
             </div>
@@ -95,6 +96,7 @@ function deleteSelected(evt) {
 }
 
 .message-container {
-    border: 1px solid red;
+    /* border: 1px solid red; */
+    flex-grow: 1;
 }
 </style>

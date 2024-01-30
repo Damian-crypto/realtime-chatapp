@@ -26,7 +26,7 @@
 }
 
 .input-msg-bar {
-    border: 1px solid red;
+    /* border: 1px solid red; */
 
     padding: 20px;
     display: flex;
@@ -34,7 +34,7 @@
 }
 
 .send-icon {
-    border: 1px solid red;
+    /* border: 1px solid red; */
 
     display: flex;
     border-radius: 999px;
@@ -45,7 +45,7 @@
 }
 
 .btn-send {
-    border: 1px solid red;
+    /* border: 1px solid red; */
 
     padding-left: 10px;
 }

@@ -4,7 +4,9 @@
 <template>
     <div class="container">
         <input id="txt-search" type="text" placeholder="Search Chat">
-        <a clsas="btn-search" href=""><img class="search-icon" src="/icons/search_icon.png"></a>
+        <a class="btn-search" href="">
+            <img class="search-icon" src="/icons/search_icon.png">
+        </a>
     </div>
 </template>
 
@@ -15,24 +17,32 @@
 }
 
 .btn-search {
-    border: 1px solid red;
+    /* border: 1px solid red; */
+    
+    height: 40px;
+    padding-right: 15px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    background-color: #414141;
 }
 
 .search-icon {
     width: 28px;
-    top: 47px;
-    left: 270px;
-    padding: 1px;
-    position: absolute;
+    /* top: 47px; */
+    /* left: 270px; */
+    padding-left: 5px;
+    padding-top: 10px;
 }
 
 #txt-search {
     font-size: 18px;
     border: none;
+    /* border-radius: 50px; */
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
     height: 40px;
-    border-radius: 50px;
-    padding: 0 40px 0 15px;
-    width: 250px;
+    padding-left: 20px;
+    width: 220px;
     background-color: #414141;
     color: white;
 }
