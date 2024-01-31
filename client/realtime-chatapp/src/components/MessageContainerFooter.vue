@@ -4,7 +4,7 @@
 <template>
     <div class="input-msg-bar">
         <input id="txt-msg" type="text" placeholder="Type your message here...">
-        <a class="btn-send" href=""><img class="send-icon" src="/icons/send_icon.png"></a>
+        <div class="btn-send"><img class="send-icon" src="/icons/send_icon.png"></div>
     </div>
 </template>
 
@@ -36,17 +36,27 @@
 .send-icon {
     /* border: 1px solid red; */
 
-    display: flex;
-    border-radius: 999px;
-    background-color: #414141;
-    text-align: center;
-    align-items: center;
     height: 50px;
 }
 
 .btn-send {
     /* border: 1px solid red; */
 
-    padding-left: 10px;
+    display: flex;
+    background-color: #414141;
+    padding-right: 5px;
+    border-radius: 999px;
+    margin-left: 10px;
+}
+
+.btn-send:hover {
+    /* border: 1px solid red; */
+
+    display: flex;
+    background-color: #414141;
+    padding-right: 1px;
+    padding-left: 4px;
+    border-radius: 999px;
+    margin-left: 10px;
 }
 </style>

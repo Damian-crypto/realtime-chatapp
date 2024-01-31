@@ -1,9 +1,21 @@
 <script setup>
-const props = defineProps(['user-data']);
-const userData = props.userData;
-const userName = userData['userName'];
+import ColorList from './ColorList.vue';
 
-const randomColors = [ '#1F8B4C', '#FAA42A', '#2354D7', '#9CBB44', '#E87A90', '#7541B9', '#B3E84E', '#3457F9', '#B0C14F', '#D27D8E', '#0A156D', '#E75F09', '#3C5C8F', '#F6D252', '#5626B7', '#88A53E', '#E94E63', '#415ABF', '#B0DA6B', '#8E1A30', '#168E5E', '#F296A1', '#6B3277', '#B7C763', '#EF762D' ];
+const props = defineProps(['userData', 'users']);
+const users = props.users;
+const userData = props.userData;
+
+// console.log(userData);
+
+var isGroup = false;
+var userName = userData['userName'];
+var groupMembers = [];
+if (Object.keys(userData).includes('groupMembers')) {
+    isGroup = true;
+    userData.groupMembers.forEach(memberID => groupMembers.push(users[memberID]['userName']));
+}
+
+const randomColors = ColorList.colors;
 const color = randomColors[userName[0].charCodeAt(0) - 'A'.charCodeAt(0)];
 
 </script>
@@ -13,7 +25,8 @@ const color = randomColors[userName[0].charCodeAt(0) - 'A'.charCodeAt(0)];
         <div class="user-image" :style="{ 'background-color': color }">{{ userName[0] }}</div>
         <div class="username-section">
             <span class="username-label">{{ userName }}</span>
-            <span class="timestamp">Last online @ {{ userData['lastOnline'][1] }}</span>
+            <span v-if="isGroup" class="timestamp">{{ groupMembers.join(', ') }}</span>
+            <span v-else class="timestamp">Last online @ {{ userData['lastOnline'][1] }}</span>
         </div>
     </div>
 </template>

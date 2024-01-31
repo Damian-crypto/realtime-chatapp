@@ -3,18 +3,26 @@ import MessageCard from './MessageCard.vue';
 import MessageContainerHeader from './MessageContainerHeader.vue';
 import MessageContainerFooter from './MessageContainerFooter.vue';
 
-const props = defineProps(['data']);
-const userData = props.data.userData;
-const messages = props.data.messages;
+const props = defineProps(['data', 'activeUser']);
+const users = props.data.users;
+const activeUser = props.activeUser;
+// console.log(activeUser);
+const messages = props.data.messages[activeUser].messages;
+// console.log(messages);
+
+var isGroup = false;
+if (Object.keys(users[activeUser]).includes('groupMembers')) {
+    isGroup = true;
+}
 
 var selectedMessage = -1;
 var mouseX = 0, mouseY = 0;
 
-document.addEventListener("mousemove", (evt) => {
+function handleMouseMove(evt) {
     // console.log(mouseX, mouseY);
     mouseX = evt.clientX;
     mouseY = evt.clientY;
-});
+}
 
 function handleMouseClick(evt) {
     // console.log(mouseX, mouseY);
@@ -49,11 +57,13 @@ function deleteSelected(evt) {
 </script>
 
 <template>
-    <div class="message-container" @click="handleMouseClick">
-        <MessageContainerHeader :user-data="data['userData']" />
+    <div class="message-container" @click="handleMouseClick" @mousemove="handleMouseMove">
+        <div class="container-header">
+            <MessageContainerHeader :user-data="users[activeUser]" :users="users" />
+        </div>
         <template v-for="(msg, index) in messages" :key="index">
             <div @contextmenu.prevent="handleContextMenu(index)">
-                <MessageCard :message="msg" />
+                <MessageCard :group-chat="isGroup" :message="msg" :users="users" />
             </div>
         </template>
 
@@ -72,10 +82,10 @@ function deleteSelected(evt) {
     background-color: #414141;
     color: white;
     z-index: 999;
-    /* border: 1px solid #414141; */
+    border: 1px solid #b9b9b9;
     padding: 3px;
     border-radius: 8px;
-    position: absolute;
+    position: fixed;
     flex-direction: column;
 }
 
