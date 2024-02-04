@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "unique_mobile_username",
-                        columnNames = { "mobileNo", "userName" }
+                        columnNames = { "mobileNo", "username" }
                 )
         }
 )
@@ -46,7 +46,7 @@ public class User {
         name = "username",
         nullable = false
     )
-    private String userName;
+    private String username;
     @Column(
         name = "authority"
     )

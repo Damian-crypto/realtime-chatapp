@@ -4,6 +4,93 @@ import { ref, watch } from 'vue';
 import MessageContainer from './components/MessageContainer.vue';
 import MessageNavigator from './components/MessageNavigator.vue';
 
+var rawData = [
+	{
+		"messageId": 3,
+		"content": "Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus ornare nibh pellentesque est. Imperdiet gravida et ullamcorper justo risus. Placerat vitae a nulla imperdiet praesent ac senectus convallis",
+		"receiverId": 1,
+		"timestamp": "2024-02-03T08:31:37.724+00:00",
+		"sender": {
+			"userId": 2,
+			"name": "John Doe",
+			"email": "john@gmail.com",
+			"mobileNo": "0123456789",
+			"username": "john",
+			"authority": "USER",
+			"password": "1234",
+			"enabled": true
+		},
+		"attachment": null,
+		"messageType": null
+	},
+	{
+		"messageId": 2,
+		"content": "Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus ornare nibh pellentesque est. Imperdiet gravida et ullamcorper justo risus. Placerat vitae a nulla imperdiet praesent ac senectus convallis",
+		"receiverId": 3,
+		"timestamp": "2024-02-03T08:31:37.711+00:00",
+		"sender": {
+			"userId": 1,
+			"name": "Damian Chamel",
+			"email": "bdamianchamel@gmail.com",
+			"mobileNo": "342341238",
+			"username": "admin",
+			"authority": "ADMIN, USER",
+			"password": "admin",
+			"enabled": true
+		},
+		"attachment": null,
+		"messageType": null
+	},
+	{
+		"messageId": 1,
+		"content": "Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus ornare nibh pellentesque est. Imperdiet gravida et ullamcorper justo risus. Placerat vitae a nulla imperdiet praesent ac senectus convallis",
+		"receiverId": 2,
+		"timestamp": "2024-02-03T08:31:37.707+00:00",
+		"sender": {
+			"userId": 1,
+			"name": "Damian Chamel",
+			"email": "bdamianchamel@gmail.com",
+			"mobileNo": "342341238",
+			"username": "admin",
+			"authority": "ADMIN, USER",
+			"password": "admin",
+			"enabled": true
+		},
+		"attachment": null,
+		"messageType": null
+	}
+];
+
+var tmp = {
+    users: {},
+    messages: {}
+};
+
+rawData.forEach((d) => {
+    var sender = d.sender.userId - 1;
+    var receiver = d.receiverId;
+    if (!tmp.users[sender]) {
+        tmp.users[sender] = {};
+        tmp.users[receiver] = {};
+    }
+    tmp['users'][sender]['userName'] = d.sender.name;
+    tmp['users'][sender]['lastOnline'] = ['1', '1'];
+
+    if (!tmp.messages[d.messageId]) {
+        tmp.messages[d.messageId] = {
+            userData: {},
+            messages: []
+        };
+    }
+    tmp['messages'][d.messageId]['userData']['userId'] = d.receiverId;
+    tmp['messages'][d.messageId]['messages'].push({
+        id: d.messageId,
+        sender: sender,
+        content: d.content,
+        timestamp: d.timestamp
+    });
+});
+
 // data -> fetch data for users [1, 2, 3, 10]
 var data = {
     users: {
@@ -185,7 +272,14 @@ var data = {
     }
 };
 
-const activeUser = ref(parseInt(Object.keys(data.users)[1]));
+data = tmp;
+
+console.log(data);
+
+var activeUser = 0;
+if (Object.keys(data).length > 0) {
+    activeUser = ref(parseInt(Object.keys(data.users)[1]));
+}
 
 function activeUserChangeCallback(userId) {
     // console.log(typeof(userId));
@@ -196,20 +290,25 @@ function activeUserChangeCallback(userId) {
 </script>
 
 <template>
-    <div class="app-window">
-        <div class="navigator">
-            <div class="nav-items">
-                <MessageNavigator
-                :data="data"
-                :active-user="activeUser"
-                :key="activeUser"
-                @active-user-changed="activeUserChangeCallback"/>
+    <div v-if="Object.keys(data).length != 0">
+        <div class="app-window">
+            <div class="navigator">
+                <div class="nav-items">
+                    <MessageNavigator
+                    :data="data"
+                    :active-user="activeUser"
+                    :key="activeUser"
+                    @active-user-changed="activeUserChangeCallback"/>
+                </div>
+            </div>
+
+            <div class="container">
+                <MessageContainer :data="data" :key="activeUser" :active-user="activeUser" />
             </div>
         </div>
-
-        <div class="container">
-            <MessageContainer :data="data" :key="activeUser" :active-user="activeUser" />
-        </div>
+    </div>
+    <div v-else>
+        <h1 style="color: white">Client - No Data</h1>
     </div>
 </template>
 

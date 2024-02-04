@@ -47,16 +47,17 @@
     padding-right: 5px;
     border-radius: 999px;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 .btn-send:hover {
     /* border: 1px solid red; */
 
     display: flex;
-    background-color: #414141;
-    padding-right: 1px;
-    padding-left: 4px;
+    background-color: #005fa8;
+    padding-right: 5px;
     border-radius: 999px;
     margin-left: 10px;
+    cursor: pointer;
 }
 </style>

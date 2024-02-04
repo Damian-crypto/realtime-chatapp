@@ -6,7 +6,7 @@ const props = defineProps(['messages', 'userData', 'activated', 'users']);
 // console.log(props.users);
 // console.log('messages', props.messages.length);
 // console.log('messages', props.messages);
-// console.log(props.userData);
+console.log(props.userData);
 
 const users = props.users;
 const userID = props.userData.userID;

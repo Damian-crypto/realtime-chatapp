@@ -7,6 +7,8 @@ const users = props.data.users;
 const messages = props.data.messages;
 const activeUser = props.activeUser;
 
+var noData = Object.keys(props.data.users).length == 0;
+
 // console.log(props.data);
 </script>
 
@@ -14,15 +16,20 @@ const activeUser = props.activeUser;
     <div class="message-nav">
         <SearchChat />
 
-        <template v-for="(value, index) in messages" :key="index">
-            <div @click="$emit('activeUserChanged', value.userData.userID)">
-                <MessageNavigatorItem
-                    :activated="value.userData.userID == activeUser"
-                    :users="users"
-                    :user-data="value.userData"
-                    :messages="value.messages" />
+        <div v-if="!noData">
+            <div v-for="(value, index) in messages" :key="index">
+                <div @click="$emit('activeUserChanged', value.userData.userID)">
+                    <MessageNavigatorItem
+                        :activated="value.userData.userID == activeUser"
+                        :users="users"
+                        :user-data="value.userData"
+                        :messages="value.messages" />
+                </div>
             </div>
-        </template>
+        </div>
+        <div v-else>
+            No Data
+        </div>
     </div>
 </template>
 

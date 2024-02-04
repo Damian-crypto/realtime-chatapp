@@ -1,5 +1,7 @@
 package com.zeus.chatapp.model;
 
+import java.util.Date;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,10 +27,12 @@ public class MessagePayload {
             generator = "message_sequence"
     )
     private Long messageId;
+    
     @Column(nullable = true)
     private String content;
+
     @Column(nullable = true)
-    private Long receiverId;
+    private Date timestamp;
 
     @ManyToOne
     @JoinColumn( // this will add a user_id column to the message table as a foreign key
@@ -36,6 +40,14 @@ public class MessagePayload {
         referencedColumnName = "user_id" // primary key of the user who owns this MESSAGE
     )
     private User sender;
+
+    @OneToOne
+    @JoinColumn(
+        name = "receiver_id",
+        referencedColumnName = "user_id",
+        nullable = true
+    )
+    private User receiver;
 
     @OneToOne(
         cascade = CascadeType.ALL,

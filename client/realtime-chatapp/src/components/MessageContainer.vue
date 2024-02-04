@@ -7,12 +7,18 @@ const props = defineProps(['data', 'activeUser']);
 const users = props.data.users;
 const activeUser = props.activeUser;
 // console.log(activeUser);
-const messages = props.data.messages[activeUser].messages;
-// console.log(messages);
 
+var noData = Object.keys(props.data.messages) == 0;
+var messages = {};
 var isGroup = false;
-if (Object.keys(users[activeUser]).includes('groupMembers')) {
-    isGroup = true;
+if (!noData) {
+    messages = props.data.messages[activeUser].messages;
+
+    // console.log(messages);
+
+    if (Object.keys(users[activeUser]).includes('groupMembers')) {
+        isGroup = true;
+    }
 }
 
 var selectedMessage = -1;
@@ -57,7 +63,7 @@ function deleteSelected(evt) {
 </script>
 
 <template>
-    <div class="message-container" @click="handleMouseClick" @mousemove="handleMouseMove">
+    <div class="message-container" v-if="!noData" @click="handleMouseClick" @mousemove="handleMouseMove">
         <div class="container-header">
             <MessageContainerHeader :user-data="users[activeUser]" :users="users" />
         </div>
@@ -68,6 +74,9 @@ function deleteSelected(evt) {
         </template>
 
         <MessageContainerFooter />
+    </div>
+    <div class="message-container" v-else @click="handleMouseClick" @mousemove="handleMouseMove">
+        No Data
     </div>
 
     <div id="context-menu-container">

@@ -23,13 +23,13 @@ public class UserConfig {
     // }
     
     @Bean
-    CommandLineRunner commandLineRunner(UserRepository userRepository) {
+    CommandLineRunner createUserExcplicit(UserRepository userRepository) {
         return args -> {
             var john = User.builder()
                 .name("John Doe")
                 .email("john@gmail.com")
                 .mobileNo("0123456789")
-                .userName("john")
+                .username("john")
                 .password("1234")
                 .authority("USER")
                 .enabled(true)
@@ -38,7 +38,16 @@ public class UserConfig {
                 .name("Alex Max")
                 .email("alex@gmail.com")
                 .mobileNo("9876543210")
-                .userName("alex")
+                .username("alex")
+                .password("abcd")
+                .authority("USER")
+                .enabled(true)
+                .build();
+            var simon = User.builder()
+                .name("Simon Ortiz")
+                .email("simon@outlook.com")
+                .mobileNo("152468785230")
+                .username("simon")
                 .password("abcd")
                 .authority("USER")
                 .enabled(true)
@@ -47,13 +56,13 @@ public class UserConfig {
                 .name("Damian Chamel")
                 .email("bdamianchamel@gmail.com")
                 .mobileNo("342341238")
-                .userName("admin")
+                .username("admin")
                 .password("admin")
                 .authority("ADMIN, USER")
                 .enabled(true)
                 .build();
             
-            var users = List.of(admin, john, alex);
+            var users = List.of(admin, john, alex, simon);
             if (!users.isEmpty()) {
                 userRepository.saveAll(users);
             }

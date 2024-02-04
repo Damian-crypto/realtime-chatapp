@@ -99,14 +99,14 @@ public class SecurityConfig {
                         e.printStackTrace();
                     }
                 }
-            )
-            .formLogin((login) ->
-                login
-                    .loginPage("/login/login.html")
-                    // .defaultSuccessUrl("/", true)
-                    .permitAll()
-            )
-            .logout(logout -> logout.permitAll());
+            );
+            // .formLogin((login) ->
+            //     login
+            //         .loginPage("/login/login.html")
+            //         // .defaultSuccessUrl("/", true)
+            //         .permitAll()
+            // )
+            // .logout(logout -> logout.permitAll());
         
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 

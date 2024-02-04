@@ -28,7 +28,7 @@ class ChatAppApplicationTests {
             .name("John Doe")
             .email("john@gmail.com")
             .mobileNo("0123456789")
-            .userName("john")
+            .username("john")
             .password("1234")
             .authority("USER")
             .enabled(true)
@@ -38,7 +38,7 @@ class ChatAppApplicationTests {
             .name("Alex Max")
             .email("alex@gmail.com")
             .mobileNo("9876543210")
-            .userName("alex")
+            .username("alex")
             .password("abcd")
             .authority("USER")
             .enabled(true)
@@ -58,19 +58,19 @@ class ChatAppApplicationTests {
 
         var msg1 = MessagePayload.builder()
                 .sender(john)
-                .receiverId(alex.getUserId())
+                .receiver(alex)
                 .content("Hello")
                 .build();
 
         var msg2 = MessagePayload.builder()
                 .sender(john)
-                .receiverId(alex.getUserId())
+                .receiver(alex)
                 .content("Where are you?")
                 .build();
 
         var msg3 = MessagePayload.builder()
                 .sender(alex)
-                .receiverId(john.getUserId())
+                .receiver(john)
                 .content("I'm here!")
                 .build();
 
@@ -78,14 +78,14 @@ class ChatAppApplicationTests {
         messageRepository.save(msg2);
         messageRepository.save(msg3);
 
-        System.out.println("John:");
-        for (MessagePayload msg : messageRepository.findBySenderId(john.getUserId())) {
-            System.out.println("\t" + msg.getContent());
-        }
+        // System.out.println("John:");
+        // for (MessagePayload msg : messageRepository.findBySenderId(john.getUserId())) {
+        //     System.out.println("\t" + msg.getContent());
+        // }
 
-        System.out.println("\nAlex:");
-        for (MessagePayload msg : messageRepository.findBySenderId(alex.getUserId())) {
-            System.out.println("\t" + msg.getContent());
-        }
+        // System.out.println("\nAlex:");
+        // for (MessagePayload msg : messageRepository.findBySenderId(alex.getUserId())) {
+        //     System.out.println("\t" + msg.getContent());
+        // }
     }
 }

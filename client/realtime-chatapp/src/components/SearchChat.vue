@@ -4,9 +4,9 @@
 <template>
     <div class="container">
         <input id="txt-search" type="text" placeholder="Search Chat">
-        <a class="btn-search" href="">
+        <div class="btn-search">
             <img class="search-icon" src="/icons/search_icon.png">
-        </a>
+        </div>
     </div>
 </template>
 
@@ -24,6 +24,17 @@
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
     background-color: #414141;
+}
+
+.btn-search:hover {
+    /* border: 1px solid red; */
+    
+    height: 40px;
+    padding-right: 15px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    background-color: #005fa8;
+    cursor: pointer;
 }
 
 .search-icon {

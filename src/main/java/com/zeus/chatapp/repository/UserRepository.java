@@ -14,13 +14,15 @@ import java.util.Optional;
 @Repository // indicates this component is responsible for accessing and manipulating data from a database
 public interface UserRepository extends JpaRepository<User, Long> {
     // Query Creation: https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html
-    List<User> findByNameContaining(String name);
+    Optional<List<User>> findUserByNameContaining(String name);
 
-    List<User> findByMobileNo(String mobileNo);
+    Optional<User> findUserByUserId(Long id);
+
+    Optional<List<User>> findUserByMobileNo(String mobileNo);
 
     Optional<User> findUserByEmail(String email);
 
-    Optional<User> findUserByUserName(String userName);
+    Optional<User> findUserByUsername(String userName);
 
     // @Transactional used for that any database operations performed within the
     // marked method will be executed within a transaction. If the transaction

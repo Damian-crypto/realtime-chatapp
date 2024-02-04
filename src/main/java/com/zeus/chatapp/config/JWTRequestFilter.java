@@ -38,33 +38,37 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
     
-        // final String authorizationHeader = request.getHeader("Authorization");
-        String authorizationHeader = null;
-        if (request.getCookies() != null) {
-            for (final Cookie cookie : request.getCookies()) {
-                if (cookie.getName().equals("token")) {
-                    authorizationHeader = cookie.getValue();
-                }
-            }
-        }
+        final String HEADER_PREFIX = "Bearer ";
+        final String AUTHORIZATION_HEADER = request.getHeader("Authorization");
+        // System.out.println(AUTHORIZATION_HEADER);
         
-        // final String HEADER_PREFIX = "Bearer ";
-
-        String username = null;
         String jwt = null;
+        String username = null;
 
-        // if (authorizationHeader != null && authorizationHeader.startsWith(HEADER_PREFIX)) {
-        //     jwt = authorizationHeader.substring(HEADER_PREFIX.length());
+        // If authorization token comes as a cookie
+        // String AUTHORIZATION_HEADER = null;
+        // if (request.getCookies() != null) {
+        //     for (final Cookie cookie : request.getCookies()) {
+        //         if (cookie.getName().equals("token")) {
+        //             authorizationHeader = cookie.getValue();
+        //         }
+        //     }
+        // }
+
+
+        // if (AUTHORIZATION_HEADER != null) {
+        //     jwt = AUTHORIZATION_HEADER;
         //     username = jwtUtil.extractUsername(jwt);
         // }
 
-        if (authorizationHeader != null) {
-            jwt = authorizationHeader;
+        if (AUTHORIZATION_HEADER != null && AUTHORIZATION_HEADER.startsWith(HEADER_PREFIX)) {
+            jwt = AUTHORIZATION_HEADER.substring(HEADER_PREFIX.length());
             username = jwtUtil.extractUsername(jwt);
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            // System.out.println(userDetails);
 
             if (jwtUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
