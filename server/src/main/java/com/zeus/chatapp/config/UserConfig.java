@@ -23,7 +23,7 @@ public class UserConfig {
     // }
     
     @Bean
-    CommandLineRunner createUserExcplicit(UserRepository userRepository) {
+    CommandLineRunner createUserExplicit(UserRepository userRepository) {
         return args -> {
             var john = User.builder()
                 .name("John Doe")

@@ -4,93 +4,6 @@ import { ref, watch } from 'vue';
 import MessageContainer from './components/MessageContainer.vue';
 import MessageNavigator from './components/MessageNavigator.vue';
 
-var rawData = [
-	{
-		"messageId": 3,
-		"content": "Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus ornare nibh pellentesque est. Imperdiet gravida et ullamcorper justo risus. Placerat vitae a nulla imperdiet praesent ac senectus convallis",
-		"receiverId": 1,
-		"timestamp": "2024-02-03T08:31:37.724+00:00",
-		"sender": {
-			"userId": 2,
-			"name": "John Doe",
-			"email": "john@gmail.com",
-			"mobileNo": "0123456789",
-			"username": "john",
-			"authority": "USER",
-			"password": "1234",
-			"enabled": true
-		},
-		"attachment": null,
-		"messageType": null
-	},
-	{
-		"messageId": 2,
-		"content": "Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus ornare nibh pellentesque est. Imperdiet gravida et ullamcorper justo risus. Placerat vitae a nulla imperdiet praesent ac senectus convallis",
-		"receiverId": 3,
-		"timestamp": "2024-02-03T08:31:37.711+00:00",
-		"sender": {
-			"userId": 1,
-			"name": "Damian Chamel",
-			"email": "bdamianchamel@gmail.com",
-			"mobileNo": "342341238",
-			"username": "admin",
-			"authority": "ADMIN, USER",
-			"password": "admin",
-			"enabled": true
-		},
-		"attachment": null,
-		"messageType": null
-	},
-	{
-		"messageId": 1,
-		"content": "Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus ornare nibh pellentesque est. Imperdiet gravida et ullamcorper justo risus. Placerat vitae a nulla imperdiet praesent ac senectus convallis",
-		"receiverId": 2,
-		"timestamp": "2024-02-03T08:31:37.707+00:00",
-		"sender": {
-			"userId": 1,
-			"name": "Damian Chamel",
-			"email": "bdamianchamel@gmail.com",
-			"mobileNo": "342341238",
-			"username": "admin",
-			"authority": "ADMIN, USER",
-			"password": "admin",
-			"enabled": true
-		},
-		"attachment": null,
-		"messageType": null
-	}
-];
-
-var tmp = {
-    users: {},
-    messages: {}
-};
-
-rawData.forEach((d) => {
-    var sender = d.sender.userId - 1;
-    var receiver = d.receiverId;
-    if (!tmp.users[sender]) {
-        tmp.users[sender] = {};
-        tmp.users[receiver] = {};
-    }
-    tmp['users'][sender]['userName'] = d.sender.name;
-    tmp['users'][sender]['lastOnline'] = ['1', '1'];
-
-    if (!tmp.messages[d.messageId]) {
-        tmp.messages[d.messageId] = {
-            userData: {},
-            messages: []
-        };
-    }
-    tmp['messages'][d.messageId]['userData']['userId'] = d.receiverId;
-    tmp['messages'][d.messageId]['messages'].push({
-        id: d.messageId,
-        sender: sender,
-        content: d.content,
-        timestamp: d.timestamp
-    });
-});
-
 // data -> fetch data for users [1, 2, 3, 10]
 var data = {
     users: {
@@ -272,9 +185,75 @@ var data = {
     }
 };
 
-data = tmp;
+const BASE_URL = 'http://10.0.0.5:8080';
 
-console.log(data);
+const test = () => {
+    fetch(`${BASE_URL}/home`)
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error(`Response is not ok (😶) => ${res.status}`);
+            }
+
+            console.log('Response received (👌) => test')
+
+            return res.text();
+        })
+        .then((data) => console.log(data))
+        .catch((err) => console.error(`Error(🫤) test => ${err}`));
+};
+
+
+const getToken = () => {
+    fetch(`${BASE_URL}/authenticate`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: 'admin',
+            password: 'admin'
+        })
+    })
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error("Error when authenticating client!")
+            }
+
+            console.log('Response received (👌) => authentication')
+
+            return res.json();
+        })
+        .then((tokenData) => {
+            // console.log(tokenData.jwt);
+            localStorage.setItem("jwt", tokenData.jwt);
+        })
+        .catch((err) => console.error(`Error(🫤) auth => ${err}`));
+};
+
+const getData = (callback) => {
+    fetch(`${BASE_URL}/get-messages/1`, {
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+            'Content-Type': 'application/json'
+        },
+    })
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error("Error when authenticating client!")
+            }
+
+            console.log('Response received (👌) => data')
+
+            return res.json();
+        })
+        .then(callback)
+        .catch((err) => console.error(`Error(🫤) data => ${err}`));
+};
+
+test();
+getToken();
+getData((res) => data = res);
 
 var activeUser = 0;
 if (Object.keys(data).length > 0) {
@@ -294,11 +273,8 @@ function activeUserChangeCallback(userId) {
         <div class="app-window">
             <div class="navigator">
                 <div class="nav-items">
-                    <MessageNavigator
-                    :data="data"
-                    :active-user="activeUser"
-                    :key="activeUser"
-                    @active-user-changed="activeUserChangeCallback"/>
+                    <MessageNavigator :data="data" :active-user="activeUser" :key="activeUser"
+                        @active-user-changed="activeUserChangeCallback" />
                 </div>
             </div>
 

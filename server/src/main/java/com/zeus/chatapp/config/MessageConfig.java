@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.zeus.chatapp.model.MessagePayload;
 import com.zeus.chatapp.model.User;
@@ -19,7 +22,7 @@ import com.zeus.chatapp.repository.UserRepository;
 // Hence you can order the configuration depending upon the beans need first to
 // be done. Anyways Spring automatically detects the dependencies by analyzing
 // the bean classes.
-@DependsOn("createUserExcplicit")
+@DependsOn("createUserExplicit")
 public class MessageConfig {
     
     @Bean
@@ -28,27 +31,27 @@ public class MessageConfig {
         MessageRepository messageRepository
         ) {
             return args -> {
-                var user1 = userRepository.findUserByUserId(1L);
-                var user2 = userRepository.findUserByUserId(2L);
-                var user3 = userRepository.findUserByUserId(3L);
+                var user1 = userRepository.findUserByUserId(1L).orElseThrow(() -> new UsernameNotFoundException("No user found 🫤"));
+                var user2 = userRepository.findUserByUserId(2L).orElseThrow(() -> new UsernameNotFoundException("No user found 🫤"));
+                var user3 = userRepository.findUserByUserId(3L).orElseThrow(() -> new UsernameNotFoundException("No user found 🫤"));
 
                 var msg0 = MessagePayload.builder()
-                .sender(user1.get())
-                .receiver(user2.get())
+                .sender(user1)
+                .receiver(user2)
                 .content("Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus ornare nibh pellentesque est. Imperdiet gravida et ullamcorper justo risus. Placerat vitae a nulla imperdiet praesent ac senectus convallis")
                 .timestamp(new Date())
                 .build();
                 
                 var msg1 = MessagePayload.builder()
-                .sender(user1.get())
-                .receiver(user3.get())
+                .sender(user1)
+                .receiver(user3)
                 .content("Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus ornare nibh pellentesque est. Imperdiet gravida et ullamcorper justo risus. Placerat vitae a nulla imperdiet praesent ac senectus convallis")
                 .timestamp(new Date())
                 .build();
                 
                 var msg2 = MessagePayload.builder()
-                .sender(user2.get())
-                .receiver(user1.get())
+                .sender(user2)
+                .receiver(user1)
                 .content("Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus ornare nibh pellentesque est. Imperdiet gravida et ullamcorper justo risus. Placerat vitae a nulla imperdiet praesent ac senectus convallis")
                 .timestamp(new Date())
                 .build();
