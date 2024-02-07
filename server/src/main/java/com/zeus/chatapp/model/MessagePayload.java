@@ -41,7 +41,7 @@ public class MessagePayload {
     )
     private User sender;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(
         name = "receiver_id",
         referencedColumnName = "user_id",

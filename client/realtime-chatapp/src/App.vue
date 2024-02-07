@@ -7,21 +7,21 @@ import MessageNavigator from './components/MessageNavigator.vue';
 // data -> fetch data for users [1, 2, 3, 10]
 var data = {
     users: {
-        0: {
-            userName: 'Damian',
-            lastOnline: ['31/01/2024', '12:20 PM']
-        },
         1: {
-            userName: 'John Doe',
-            lastOnline: ['30/01/2024', '1:00 PM']
+            userName: 'Damian Chamel',
+            lastOnline: '2024-02-06T06:06:01.874+00:00'
         },
         2: {
-            userName: 'Alen Max',
-            lastOnline: ['01/04/2019', '3:00 PM']
+            userName: 'John Doe',
+            lastOnline: '2024-02-06T06:07:01.874+00:00'
         },
         3: {
+            userName: 'Alen Max',
+            lastOnline: '2024-01-16T01:06:01.874+00:00'
+        },
+        4: {
             userName: 'Simon Ortiz',
-            lastOnline: ['30/01/2024', '10:00 AM']
+            lastOnline: '2023-08-14T06:06:01.874+00:00'
         },
         10: {
             userName: 'Our Family',
@@ -29,159 +29,130 @@ var data = {
         }
     },
     messages: {
-        1: {
-            userData: {
-                userID: 1
-            },
-            messages: [
-                {
-                    id: 0,
-                    sender: 0,
-                    content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-            ornare nibh pellentesque est. Imperdiet gravida et 
-            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-            praesent ac senectus convallis`,
-                    timestamp: '12:12 PM 27/01/2024'
-                },
-                {
-                    id: 1,
-                    sender: 1,
-                    content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-            ornare nibh pellentesque est. Imperdiet gravida et 
-            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-            praesent ac senectus convallis`,
-                    timestamp: '1:00 PM 27/01/2024'
-                }
-            ]
-        },
         2: {
-            userData: {
-                userID: 2
-            },
-            messages: []
-        },
-        3: {
-            userData: {
-                userID: 3
-            },
             messages: [
                 {
                     id: 0,
-                    sender: 0,
-                    content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
+                    sender: 1,
+                    receiver: 2,
+                    content: `Hello!!!!! Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
             ornare nibh pellentesque est. Imperdiet gravida et 
             ullamcorper justo risus. Placerat vitae a nulla imperdiet 
             praesent ac senectus convallis`,
                     timestamp: '12:12 PM 27/01/2024'
                 },
                 {
-                    id: 0,
-                    sender: 1,
-                    content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-            ornare nibh pellentesque est. Imperdiet gravida et 
-            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-            praesent ac senectus convallis`,
-                    timestamp: '1:00 PM 27/01/2024'
-                },
-                {
-                    id: 0,
-                    sender: 1,
-                    content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-            ornare nibh pellentesque est. Imperdiet gravida et 
-            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-            praesent ac senectus convallis`,
-                    timestamp: '1:00 PM 27/01/2024'
-                },
-                {
                     id: 1,
-                    sender: 1,
-                    content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-            ornare nibh pellentesque est. Imperdiet gravida et 
-            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-            praesent ac senectus convallis`,
-                    timestamp: '1:00 PM 27/01/2024'
-                },
-                {
-                    id: 1,
-                    sender: 1,
-                    content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-            ornare nibh pellentesque est. Imperdiet gravida et 
-            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-            praesent ac senectus convallis`,
-                    timestamp: '1:00 PM 27/01/2024'
-                },
-                {
-                    id: 1,
-                    sender: 1,
-                    content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-            ornare nibh pellentesque est. Imperdiet gravida et 
-            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-            praesent ac senectus convallis`,
-                    timestamp: '1:00 PM 27/01/2024'
-                },
-            ]
-        },
-        10: {
-            userData: {
-                userID: 10
-            },
-            messages: [
-                {
-                    id: 0,
-                    sender: 3,
-                    content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-            ornare nibh pellentesque est. Imperdiet gravida et 
-            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-            praesent ac senectus convallis`,
-                    timestamp: '12:12 PM 27/01/2024'
-                },
-                {
                     id: 1,
                     sender: 2,
-                    content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-            ornare nibh pellentesque est. Imperdiet gravida et 
-            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-            praesent ac senectus convallis`,
-                    timestamp: '1:00 PM 27/01/2024'
-                },
-                {
-                    id: 2,
-                    sender: 3,
-                    content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-            ornare nibh pellentesque est. Imperdiet gravida et 
-            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-            praesent ac senectus convallis`,
-                    timestamp: '1:00 PM 27/01/2024'
-                },
-                {
-                    id: 3,
-                    sender: 0,
-                    content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-            ornare nibh pellentesque est. Imperdiet gravida et 
-            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-            praesent ac senectus convallis`,
-                    timestamp: '1:00 PM 27/01/2024'
-                },
-                {
-                    id: 4,
-                    sender: 1,
-                    content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-            ornare nibh pellentesque est. Imperdiet gravida et 
-            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-            praesent ac senectus convallis`,
-                    timestamp: '1:00 PM 27/01/2024'
-                },
-                {
-                    id: 5,
-                    sender: 0,
-                    content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
+                    receiver: 1,
+                    content: `Hi Hi! Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
             ornare nibh pellentesque est. Imperdiet gravida et 
             ullamcorper justo risus. Placerat vitae a nulla imperdiet 
             praesent ac senectus convallis`,
                     timestamp: '1:00 PM 27/01/2024'
                 }
             ]
-        }
+        },
+        3: {
+            messages: [
+                {
+                    id: 0,
+                    sender: 1,
+                    receiver: 3,
+                    content: `😂 Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
+            ornare nibh pellentesque est. Imperdiet gravida et 
+            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
+            praesent ac senectus convallis`,
+                    timestamp: '12:12 PM 27/01/2024'
+                },
+                {
+                    id: 1,
+                    sender: 1,
+                    receiver: 3,
+                    content: `😊 Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
+            ornare nibh pellentesque est. Imperdiet gravida et 
+            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
+            praesent ac senectus convallis`,
+                    timestamp: '1:00 PM 27/01/2024'
+                }
+            ]
+        },
+        4: {
+            messages: [
+                {
+                    id: 0,
+                    sender: 4,
+                    receiver: 1,
+                    content: `<> Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
+            ornare nibh pellentesque est. Imperdiet gravida et 
+            ullamcorper justo risus. Placerat vitae a nulla imperdiet 
+            praesent ac senectus convallis`,
+                    timestamp: '12:12 PM 27/01/2024'
+                }
+            ]
+        },
+        // 10: {
+        //     userData: {
+        //         userID: 10
+        //     },
+        //     messages: [
+        //         {
+        //             id: 0,
+        //             sender: 3,
+        //             content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
+        //     ornare nibh pellentesque est. Imperdiet gravida et 
+        //     ullamcorper justo risus. Placerat vitae a nulla imperdiet 
+        //     praesent ac senectus convallis`,
+        //             timestamp: '12:12 PM 27/01/2024'
+        //         },
+        //         {
+        //             id: 1,
+        //             sender: 2,
+        //             content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
+        //     ornare nibh pellentesque est. Imperdiet gravida et 
+        //     ullamcorper justo risus. Placerat vitae a nulla imperdiet 
+        //     praesent ac senectus convallis`,
+        //             timestamp: '1:00 PM 27/01/2024'
+        //         },
+        //         {
+        //             id: 2,
+        //             sender: 3,
+        //             content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
+        //     ornare nibh pellentesque est. Imperdiet gravida et 
+        //     ullamcorper justo risus. Placerat vitae a nulla imperdiet 
+        //     praesent ac senectus convallis`,
+        //             timestamp: '1:00 PM 27/01/2024'
+        //         },
+        //         {
+        //             id: 3,
+        //             sender: 0,
+        //             content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
+        //     ornare nibh pellentesque est. Imperdiet gravida et 
+        //     ullamcorper justo risus. Placerat vitae a nulla imperdiet 
+        //     praesent ac senectus convallis`,
+        //             timestamp: '1:00 PM 27/01/2024'
+        //         },
+        //         {
+        //             id: 4,
+        //             sender: 1,
+        //             content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
+        //     ornare nibh pellentesque est. Imperdiet gravida et 
+        //     ullamcorper justo risus. Placerat vitae a nulla imperdiet 
+        //     praesent ac senectus convallis`,
+        //             timestamp: '1:00 PM 27/01/2024'
+        //         },
+        //         {
+        //             id: 5,
+        //             sender: 0,
+        //             content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
+        //     ornare nibh pellentesque est. Imperdiet gravida et 
+        //     ullamcorper justo risus. Placerat vitae a nulla imperdiet 
+        //     praesent ac senectus convallis`,
+        //             timestamp: '1:00 PM 27/01/2024'
+        //         }
+        //     ]
+        // }
     }
 };
 

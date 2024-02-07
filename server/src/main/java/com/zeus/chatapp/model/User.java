@@ -23,15 +23,15 @@ import lombok.NoArgsConstructor;
 public class User {
     @Id // userId is the primary-key of this table
     @Column(name = "user_id") // to specify a name of a table column
-    @SequenceGenerator( // a primary key generator
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1 // specify the amount by which the sequence value should be incremented when obtaining a block of values from the database sequence
-    )
-    @GeneratedValue( // specification of generation strategies
-            strategy = GenerationType.SEQUENCE, // sequence of numbers
-            generator = "user_sequence"
-    )
+//     @SequenceGenerator( // a primary key generator
+//             name = "user_sequence",
+//             sequenceName = "user_sequence",
+//             allocationSize = 1 // specify the amount by which the sequence value should be incremented when obtaining a block of values from the database sequence
+//     )
+//     @GeneratedValue( // specification of generation strategies
+//             strategy = GenerationType.SEQUENCE, // sequence of numbers
+//             generator = "user_sequence"
+//     )
     private Long userId;
     private String name;
     private String email;

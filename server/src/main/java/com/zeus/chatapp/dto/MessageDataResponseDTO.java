@@ -3,6 +3,7 @@ package com.zeus.chatapp.dto;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.zeus.chatapp.model.MessageData;
 import com.zeus.chatapp.model.UserData;
 
 import lombok.AllArgsConstructor;
@@ -23,7 +24,8 @@ public class MessageDataResponseDTO {
         users.put(userId, data);
     }
 
-    public void addMessage(Long messageId, MessageDTO msg) {
-        messages.put(messageId, msg);
+    public void addMessage(Long messageId, MessageData msg) {
+        messages.putIfAbsent(messageId, new MessageDTO());
+        messages.get(messageId).addMessage(msg);
     }
 }

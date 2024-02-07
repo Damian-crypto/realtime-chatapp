@@ -22,10 +22,11 @@ public class UserConfig {
     //     return new MyUserDetailsService();
     // }
     
-    @Bean
+    @Bean(name="makeFakeUsers")
     CommandLineRunner createUserExplicit(UserRepository userRepository) {
         return args -> {
             var john = User.builder()
+                .userId(4L)
                 .name("John Doe")
                 .email("john@gmail.com")
                 .mobileNo("0123456789")
@@ -34,7 +35,8 @@ public class UserConfig {
                 .authority("USER")
                 .enabled(true)
                 .build();
-            var alex = User.builder()
+                var alex = User.builder()
+                .userId(2L)
                 .name("Alex Max")
                 .email("alex@gmail.com")
                 .mobileNo("9876543210")
@@ -44,6 +46,7 @@ public class UserConfig {
                 .enabled(true)
                 .build();
             var simon = User.builder()
+                .userId(3L)
                 .name("Simon Ortiz")
                 .email("simon@outlook.com")
                 .mobileNo("152468785230")
@@ -53,6 +56,7 @@ public class UserConfig {
                 .enabled(true)
                 .build();
             var admin = User.builder()
+                .userId(1L)
                 .name("Damian Chamel")
                 .email("bdamianchamel@gmail.com")
                 .mobileNo("342341238")
@@ -61,8 +65,18 @@ public class UserConfig {
                 .authority("ADMIN, USER")
                 .enabled(true)
                 .build();
+            var ben = User.builder()
+                .userId(5L)
+                .name("Ben Daniel")
+                .email("bdaniel@hotmail.com")
+                .mobileNo("152468785451")
+                .username("ben")
+                .password("1234")
+                .authority("USER")
+                .enabled(true)
+                .build();
             
-            var users = List.of(admin, john, alex, simon);
+            var users = List.of(admin, john, alex, simon, ben);
             if (!users.isEmpty()) {
                 userRepository.saveAll(users);
             }

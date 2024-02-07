@@ -1,15 +1,15 @@
 <script setup>
 import ColorList from './ColorList.vue';
 
-const props = defineProps(['messages', 'userData', 'activated', 'users']);
+const props = defineProps(['messages', 'activated', 'users', 'userId']);
 
-// console.log(props.users);
+// console.log('users', props.users);
 // console.log('messages', props.messages.length);
 // console.log('messages', props.messages);
-// console.log(props.userData);
+// console.log(props.activated);
 
 const users = props.users;
-const userID = props.userData.userID;
+const userID = props.userId;
 const userName = users[userID]['userName'];
 const messageCount = props.messages.length;
 const activated = props.activated;
@@ -24,7 +24,7 @@ if (messageCount > 0) {
     lastMessage = props.messages[messageCount - 1];
     content = lastMessage.content;
 } else {
-    content = users[userID]['lastOnline'].join(' ');
+    content = new Date(users[userID]['lastOnline']).toLocaleString();
 }
 </script>
 

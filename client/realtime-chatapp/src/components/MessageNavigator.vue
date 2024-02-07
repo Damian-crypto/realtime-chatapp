@@ -18,11 +18,11 @@ var noData = Object.keys(props.data.users).length == 0;
 
         <div v-if="!noData">
             <div v-for="(value, index) in messages" :key="index">
-                <div @click="$emit('activeUserChanged', value.userData.userID)">
+                <div @click="$emit('activeUserChanged', index)">
                     <MessageNavigatorItem
-                        :activated="value.userData.userID == activeUser"
+                        :activated="index == activeUser"
+                        :userId="index"
                         :users="users"
-                        :user-data="value.userData"
                         :messages="value.messages" />
                 </div>
             </div>

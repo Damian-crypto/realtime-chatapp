@@ -5,7 +5,7 @@ const randomColors = ColorList.colors;
 const props = defineProps(['message', 'users', 'groupChat']);
 const users = props.users;
 const message = props.message;
-// console.log(users);
+// console.log(message, message.sender);
 const userName = users[message.sender].userName;
 const isGroup = props.groupChat;
 
@@ -17,7 +17,7 @@ function getColor(userName) {
 <template>
     <div class="chat-message">
         <div class="message-card" :style="[
-            message.sender == 0
+            message.sender == 1
                 ?
                 { 'background-color': '#313131' }
                 :
@@ -30,7 +30,7 @@ function getColor(userName) {
                 </div>
             </div>
             <div class="message-content" :style="[
-                message.sender == 0
+                message.sender == 1
                     ?
                     { 'text-align': 'left' }
                     :
@@ -38,13 +38,13 @@ function getColor(userName) {
                 {{ message.content }}
             </div>
             <div class="message-footer" :style="[
-                message.sender == 0
+                message.sender == 1
                     ?
                     { 'flex-direction': 'row-reverse' }
                     :
                     { 'flex-direction': 'row' }]">
                 <div class="timestamp">
-                    {{ message.timestamp }}
+                    {{ new Date(message.timestamp).toLocaleString() }}
                 </div>
             </div>
         </div>

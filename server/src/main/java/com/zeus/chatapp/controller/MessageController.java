@@ -63,28 +63,31 @@ public class MessageController {
             for (MessagePayload msg : messages.get()) {
                 UserData sender = UserData.builder()
                                             .userId(msg.getSender().getUserId())
-                                            .userName(msg.getSender().getUsername())
+                                            .userName(msg.getSender().getName())
                                             .lastOnline(new Date())
                                             .build();
                 response.addUser(sender.getUserId(), sender);
 
                 UserData receiver = UserData.builder()
                                             .userId(msg.getReceiver().getUserId())
-                                            .userName(msg.getReceiver().getUsername())
+                                            .userName(msg.getReceiver().getName())
                                             .lastOnline(new Date())
                                             .build();
                 response.addUser(receiver.getUserId(), receiver);
 
-                MessageDTO msgDTO = new MessageDTO(receiver.getUserId());
-                msgDTO.addMessage(
-                    MessageData.builder()
+                MessageData msgData = MessageData.builder()
                                 .id(msg.getMessageId())
                                 .sender(sender.getUserId())
+                                .receiver(receiver.getUserId())
                                 .content(msg.getContent())
                                 .timestamp(msg.getTimestamp())
-                                .build()
-                );
-                response.addMessage(receiver.getUserId(), msgDTO);
+                                .build();
+
+                if (receiver.getUserId() == id) {
+                    response.addMessage(sender.getUserId(), msgData);
+                } else {
+                    response.addMessage(receiver.getUserId(), msgData);
+                }
             }
 
             return ResponseEntity.ok(response);

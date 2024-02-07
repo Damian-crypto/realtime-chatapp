@@ -14,8 +14,6 @@ var isGroup = false;
 if (!noData) {
     messages = props.data.messages[activeUser].messages;
 
-    // console.log(messages);
-
     if (Object.keys(users[activeUser]).includes('groupMembers')) {
         isGroup = true;
     }

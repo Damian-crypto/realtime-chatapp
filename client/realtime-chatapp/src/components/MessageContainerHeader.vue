@@ -26,7 +26,7 @@ const color = randomColors[userName[0].charCodeAt(0) - 'A'.charCodeAt(0)];
         <div class="username-section">
             <span class="username-label">{{ userName }}</span>
             <span v-if="isGroup" class="timestamp">{{ groupMembers.join(', ') }}</span>
-            <span v-else class="timestamp">Last online @ {{ userData['lastOnline'][1] }}</span>
+            <span v-else class="timestamp">Last online @ {{ new Date(userData['lastOnline']).toLocaleString() }}</span>
         </div>
     </div>
 </template>
