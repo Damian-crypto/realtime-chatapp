@@ -1,12 +1,8 @@
 package com.zeus.chatapp.controller;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
-import javax.naming.NameNotFoundException;
-import javax.swing.text.html.Option;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +19,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zeus.chatapp.dto.MessageObject;
-import com.zeus.chatapp.dto.NewMessage;
 import com.zeus.chatapp.dto.MessageDataResponseDTO;
 import com.zeus.chatapp.model.AuthenticationRequest;
 import com.zeus.chatapp.model.AuthenticationResponse;
 import com.zeus.chatapp.model.MessageData;
 import com.zeus.chatapp.model.MessagePayload;
-import com.zeus.chatapp.model.User;
 import com.zeus.chatapp.model.UserData;
 import com.zeus.chatapp.repository.MessageRepository;
 import com.zeus.chatapp.repository.UserRepository;
@@ -122,10 +115,9 @@ public class MessageController {
 
         if (payload != null) {
             messageRepository.save(payload);
+            newMessage.setTimestamp(payload.getTimestamp());
+            newMessage.setSender(senderId);
         }
-
-        newMessage.setTimestamp(payload.getTimestamp());
-        newMessage.setSender(senderId);
 
         return ResponseEntity.ok(newMessage);
     }
