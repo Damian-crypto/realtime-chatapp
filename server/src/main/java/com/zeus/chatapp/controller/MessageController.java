@@ -12,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -132,7 +133,6 @@ public class MessageController {
                     authenticationRequest.getUsername(),
                     authenticationRequest.getPassword())
             );
-            System.out.println("authenticate: " + authenticationRequest.getUsername());
         } catch (BadCredentialsException ex) {
             throw new Exception("Incorrect username and/or password", ex);
         }
@@ -141,8 +141,16 @@ public class MessageController {
             authenticationRequest.getUsername()
         );
 
+        var user = userRepository
+            .findUserByUsername(authenticationRequest.getUsername())
+            .orElseThrow(
+                () -> new UsernameNotFoundException(
+                    authenticationRequest.getUsername() + " username is not found(🫤)!"
+                )
+            );
+
         final String jwt = jwtUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok(new AuthenticationResponse(user.getUserId(), jwt));
     }
 }

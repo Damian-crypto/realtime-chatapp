@@ -1,17 +1,23 @@
 <script setup>
+import { Data } from './store';
 import ColorList from './ColorList.vue';
+
 const randomColors = ColorList.colors;
 
-const props = defineProps(['message', 'users', 'groupChat']);
-const users = props.users;
-const message = props.message;
-// console.log(message, message.sender);
-const userName = users[message.sender].userName;
+const props = defineProps(['messageIndex', 'groupChat', 'activeUser']);
+const messageIndex = props.messageIndex;
+const activeUser = props.activeUser;
 const isGroup = props.groupChat;
+const users = Data.data.users;
+// console.log(Data.data.messages);
+// console.log(props.messageIndex);
+const message = Data.data.messages[activeUser].messages[messageIndex];
+const userName = users[message.sender].userName;
 
 function getColor(userName) {
     return randomColors[userName[0].charCodeAt(0) - 'A'.charCodeAt(0)];
 }
+
 </script>
 
 <template>

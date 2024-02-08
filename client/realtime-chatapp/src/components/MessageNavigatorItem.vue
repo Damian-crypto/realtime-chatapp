@@ -3,11 +3,6 @@ import ColorList from './ColorList.vue';
 
 const props = defineProps(['messages', 'activated', 'users', 'userId']);
 
-// console.log('users', props.users);
-// console.log('messages', props.messages.length);
-// console.log('messages', props.messages);
-// console.log(props.activated);
-
 const users = props.users;
 const userID = props.userId;
 const userName = users[userID]['userName'];
@@ -35,7 +30,7 @@ if (messageCount > 0) {
             <span class="username-label">{{ userName }}</span>
             <span class="recent-message">
                 <template v-if="lastMessage != null">
-                    <template v-if="lastMessage.sender == 0">You:</template>
+                    <template v-if="lastMessage.sender == 1">You:</template>
                     <template v-else>{{ userName }}:&nbsp;</template>
                     {{ content.substr(0, Math.min(20, content.length)) }}...
                 </template>

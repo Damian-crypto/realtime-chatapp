@@ -1,10 +1,53 @@
 <script setup>
+import { Data } from './store';
+import { getData } from '@/utils/utils';
+import { ref } from 'vue';
+
+const props = defineProps(['metaData']);
+const emit = defineEmits(['goBottom']);
+const metaData = props.metaData;
+
+const txtMsg = ref("");
+
+function sendMessage() {
+    // var txtMsg = document.getElementById("txt-msg");
+
+    const body = {
+        content: txtMsg.value,
+        receiver: metaData.activeUser
+    };
+
+    fetch(`${metaData.baseURL}/new-message/${metaData.myUserId}`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    })
+    .then((res) => {
+        if (!res.ok) {
+            throw new Error(`Message not sent (🧐) => ${res.status}!`);
+        }
+
+        return res.json();
+    })
+    .then((data) => {
+        getData(metaData, (res) => {
+            Data.data = res
+            txtMsg.value = "";
+            emit('goBottom');
+        });
+    })
+    .catch((err) => console.error(`Error(🫤) sending message => ${err}`));
+}
 </script>
 
 <template>
     <div class="input-msg-bar">
-        <input id="txt-msg" type="text" placeholder="Type your message here...">
-        <div class="btn-send"><img class="send-icon" src="/icons/send_icon.png"></div>
+        <input id="txt-msg" type="text" placeholder="Type your message here..." @change="sendMessage" v-model="txtMsg">
+        <div class="btn-send" @click="sendMessage"><img class="send-icon" src="/icons/send_icon.png"></div>
     </div>
 </template>
 

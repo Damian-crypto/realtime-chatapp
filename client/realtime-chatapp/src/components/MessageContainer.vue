@@ -1,19 +1,18 @@
 <script setup>
+import { Data } from './store';
 import MessageCard from './MessageCard.vue';
 import MessageContainerHeader from './MessageContainerHeader.vue';
 import MessageContainerFooter from './MessageContainerFooter.vue';
 
-const props = defineProps(['data', 'activeUser']);
-const users = props.data.users;
+const props = defineProps(['activeUser', 'metaData']);
+const users = Data.data.users;
 const activeUser = props.activeUser;
-// console.log(activeUser);
+const metaData = props.metaData;
 
-var noData = Object.keys(props.data.messages) == 0;
 var messages = {};
 var isGroup = false;
+var noData = Object.keys(Data.data.messages) == 0;
 if (!noData) {
-    messages = props.data.messages[activeUser].messages;
-
     if (Object.keys(users[activeUser]).includes('groupMembers')) {
         isGroup = true;
     }
@@ -58,24 +57,31 @@ function showInfoSelected(evt) {
 function deleteSelected(evt) {
     hideContextMenu();
 }
+
+function goBottom() {
+    window.location.hash = "";
+    window.location.hash = "txt-msg";
+}
 </script>
 
 <template>
     <div class="message-container" v-if="!noData" @click="handleMouseClick" @mousemove="handleMouseMove">
         <div class="container-header">
-            <MessageContainerHeader :user-data="users[activeUser]" :users="users" />
+            <MessageContainerHeader :active-user="activeUser" />
         </div>
-        <template v-for="(msg, index) in messages" :key="index">
+        <template v-for="(msg, index) in Data.data.messages[activeUser].messages" :key="index">
             <div @contextmenu.prevent="handleContextMenu(index)">
-                <MessageCard :group-chat="isGroup" :message="msg" :users="users" />
+                <MessageCard :group-chat="isGroup" :active-user="activeUser" :message-index="index" />
             </div>
         </template>
 
-        <MessageContainerFooter />
+        <MessageContainerFooter @go-bottom="goBottom" :meta-data="metaData" />
     </div>
     <div class="message-container" v-else @click="handleMouseClick" @mousemove="handleMouseMove">
         No Data
     </div>
+
+    <a id="scroll-down" hidden></a>
 
     <div id="context-menu-container">
         <div id="menu-show-info" class="menu-item" @click="showInfoSelected">Show Information</div>

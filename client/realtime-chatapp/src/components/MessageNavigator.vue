@@ -1,13 +1,14 @@
 <script setup>
+import { Data } from './store';
 import SearchChat from './SearchChat.vue';
 import MessageNavigatorItem from './MessageNavigatorItem.vue';
 
-const props = defineProps(['data', 'activeUser']);
-const users = props.data.users;
-const messages = props.data.messages;
+const props = defineProps(['activeUser']);
+const users = Data.data.users;
+const messages = Data.data.messages;
 const activeUser = props.activeUser;
 
-var noData = Object.keys(props.data.users).length == 0;
+var noData = Object.keys(Data.data.users).length == 0;
 
 // console.log(props.data);
 </script>

@@ -1,11 +1,10 @@
 <script setup>
+import { Data } from './store';
 import ColorList from './ColorList.vue';
 
-const props = defineProps(['userData', 'users']);
-const users = props.users;
-const userData = props.userData;
-
-// console.log(userData);
+const props = defineProps(['active-user']);
+const users = Data.data.users;
+const userData = Data.data.users[props.activeUser];
 
 var isGroup = false;
 var userName = userData['userName'];
@@ -17,7 +16,6 @@ if (Object.keys(userData).includes('groupMembers')) {
 
 const randomColors = ColorList.colors;
 const color = randomColors[userName[0].charCodeAt(0) - 'A'.charCodeAt(0)];
-
 </script>
 
 <template>
