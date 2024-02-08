@@ -4,22 +4,22 @@ server:
     include-message: always
 
 spring:
-  # h2:
-  #   console:
-  #     enabled: true
+  h2:
+    console:
+      enabled: true
 
   datasource:
-    # url: jdbc:h2:mem:chat_db
-    # driverClassName: org.h2.Driver
-    url: jdbc:mysql://localhost:3306/chat_db
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:h2:mem:chat_db
+    driverClassName: org.h2.Driver
+    # url: jdbc:mysql://localhost:3306/chat_db
+    # driver-class-name: com.mysql.cj.jdbc.Driver
     username: damian
     password: 1234
   
   jpa:
     hibernate:
       ddl-auto: create
-    # database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
 
   # security:

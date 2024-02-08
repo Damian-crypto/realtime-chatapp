@@ -9,10 +9,10 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class MessageDTO {
+public class MessageObject {
     private List<MessageData> messages;
 
-    public MessageDTO() {
+    public MessageObject() {
         this.messages = new ArrayList<>();
     }
 

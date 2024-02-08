@@ -23,7 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zeus.chatapp.dto.MessageDTO;
+import com.zeus.chatapp.dto.MessageObject;
+import com.zeus.chatapp.dto.NewMessage;
 import com.zeus.chatapp.dto.MessageDataResponseDTO;
 import com.zeus.chatapp.model.AuthenticationRequest;
 import com.zeus.chatapp.model.AuthenticationResponse;
@@ -32,6 +33,7 @@ import com.zeus.chatapp.model.MessagePayload;
 import com.zeus.chatapp.model.User;
 import com.zeus.chatapp.model.UserData;
 import com.zeus.chatapp.repository.MessageRepository;
+import com.zeus.chatapp.repository.UserRepository;
 import com.zeus.chatapp.utils.JWTUtil;
 
 @RestController
@@ -40,6 +42,9 @@ public class MessageController {
 
     @Autowired
     private MessageRepository messageRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -96,13 +101,33 @@ public class MessageController {
         return ResponseEntity.notFound().build();
     }
     
-    @PostMapping("/new-message")
-    public MessagePayload newMessage(
-        @RequestBody @NonNull MessagePayload messagePayload
+    @PostMapping("/new-message/{senderId}")
+    public ResponseEntity<MessageData> newMessage(
+        @PathVariable Long senderId,
+        @RequestBody @NonNull MessageData newMessage
     ) {
-        messageRepository.save(messagePayload);
+        var sender = userRepository.findUserByUserId(senderId);
+        var receiver = userRepository.findUserByUserId(newMessage.getReceiver());
 
-        return messagePayload;
+        if (sender.isEmpty() || receiver.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        MessagePayload payload = MessagePayload.builder()
+                                                .sender(sender.get())
+                                                .receiver(receiver.get())
+                                                .content(newMessage.getContent())
+                                                .timestamp(new Date())
+                                                .build();
+
+        if (payload != null) {
+            messageRepository.save(payload);
+        }
+
+        newMessage.setTimestamp(payload.getTimestamp());
+        newMessage.setSender(senderId);
+
+        return ResponseEntity.ok(newMessage);
     }
 
     @PostMapping("/authenticate")

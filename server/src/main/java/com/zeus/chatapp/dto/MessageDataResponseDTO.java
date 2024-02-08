@@ -13,7 +13,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class MessageDataResponseDTO {
     private Map<Long, UserData> users;
-    private Map<Long, MessageDTO> messages;
+    private Map<Long, MessageObject> messages;
 
     public MessageDataResponseDTO() {
         users = new HashMap<>();
@@ -25,7 +25,7 @@ public class MessageDataResponseDTO {
     }
 
     public void addMessage(Long messageId, MessageData msg) {
-        messages.putIfAbsent(messageId, new MessageDTO());
+        messages.putIfAbsent(messageId, new MessageObject());
         messages.get(messageId).addMessage(msg);
     }
 }
