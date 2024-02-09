@@ -24,24 +24,27 @@ const getToken = (metaData) => {
             password: 'admin'
         })
     })
-        .then((res) => {
-            if (!res.ok) {
-                throw new Error("Error when authenticating client!")
-            }
+    .then((res) => {
+        if (!res.ok) {
+            throw new Error("Error when authenticating client!")
+        }
 
-            console.log('Response received (👌) => authentication')
+        console.log('Response received (👌) => authentication')
 
-            return res.json();
-        })
-        .then((tokenData) => {
-            // console.log(tokenData.jwt);
-            localStorage.setItem("jwt", tokenData.jwt);
-            metaData.myUserId = tokenData.userId;
-        })
-        .catch((err) => console.error(`Error(🫤) auth => ${err}`));
+        return res.json();
+    })
+    .then((tokenData) => {
+        // console.log(tokenData.jwt);
+        localStorage.setItem("jwt", tokenData.jwt);
+        metaData.myUserId = tokenData.userId;
+    })
+    .catch((err) => {
+        alert('Wrong credentials!');
+        console.error(`Error(🫤) auth => ${err}`)
+    });
 };
 
-const getData = (metaData, callback) => {
+const getData = (metaData, callback, errorcallback) => {
     fetch(`${metaData.baseURL}/get-messages/${metaData.myUserId}`, {
         headers: {
             'Accept': 'application/json',
@@ -59,7 +62,38 @@ const getData = (metaData, callback) => {
             return res.json();
         })
         .then(callback)
-        .catch((err) => console.error(`Error(🫤) data => ${err}`));
+        .catch((err) => {
+            console.error(`Error(🫤) data => ${err}`);
+            errorcallback(err);
+        });
 };
 
-export { test, getData, getToken };
+const deleteMessage = (metaData, messageId, callback, errorcallback) => {
+    fetch(`${metaData.baseURL}/delete-message/${metaData.myUserId}`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+            'Content-Type': 'application/json'
+        },
+        body: {
+            'messageId': messageId
+        }
+    })
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error("Request not successfull => deleting message!")
+            }
+
+            console.log('Response received (👌) => delete')
+
+            return res.json();
+        })
+        .then(callback)
+        .catch((err) => {
+            console.error(`Error(🫤) delete => ${err}`);
+            errorcallback(err);
+        });
+};
+
+export { test, getData, getToken, deleteMessage };

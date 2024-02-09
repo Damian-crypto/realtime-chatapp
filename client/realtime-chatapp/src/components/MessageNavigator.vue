@@ -3,33 +3,30 @@ import { Data } from './store';
 import SearchChat from './SearchChat.vue';
 import MessageNavigatorItem from './MessageNavigatorItem.vue';
 
-const props = defineProps(['activeUser']);
-const users = Data.data.users;
+const props = defineProps(['activeUser', 'metaData']);
+const metaData = props.metaData;
 const messages = Data.data.messages;
 const activeUser = props.activeUser;
-
-var noData = Object.keys(Data.data.users).length == 0;
-
-// console.log(props.data);
 </script>
 
 <template>
     <div class="message-nav">
         <SearchChat />
 
-        <div v-if="!noData">
-            <div v-for="(value, index) in messages" :key="index">
-                <div @click="$emit('activeUserChanged', index)">
-                    <MessageNavigatorItem
-                        :activated="index == activeUser"
-                        :userId="index"
-                        :users="users"
-                        :messages="value.messages" />
-                </div>
-            </div>
+        <div @click="$emit('activeUserChanged', metaData.myUserId)">
+            <MessageNavigatorItem
+                :me="true"
+                :active-user="metaData.myUserId"
+                :activated="activeUser == metaData.myUserId"
+                />
         </div>
-        <div v-else>
-            No Data
+        <div v-for="(value, index) in messages" :key="index">
+            <div @click="$emit('activeUserChanged', index)">
+                <MessageNavigatorItem
+                    :active-user="activeUser"
+                    :activated="activeUser == index"
+                    :messages-index="index" />
+            </div>
         </div>
     </div>
 </template>

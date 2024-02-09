@@ -1,5 +1,6 @@
 <script setup>
 import { Data } from './store';
+import { deleteMessage } from '../utils/utils';
 import MessageCard from './MessageCard.vue';
 import MessageContainerHeader from './MessageContainerHeader.vue';
 import MessageContainerFooter from './MessageContainerFooter.vue';
@@ -16,6 +17,15 @@ if (!noData) {
     if (Object.keys(users[activeUser]).includes('groupMembers')) {
         isGroup = true;
     }
+}
+
+// console.log(activeUser);
+// console.log(Data.data.messages);
+// console.log(Data.data.messages[activeUser]);
+
+var profile = false;
+if (activeUser == metaData.myUserId) {
+    profile = true;
 }
 
 var selectedMessage = -1;
@@ -40,7 +50,7 @@ function hideContextMenu() {
 function handleContextMenu(idx) {
     // console.log(mouseX, mouseY);
     selectedMessage = idx;
-    
+
     var contextMenu = document.getElementById("context-menu-container");
     contextMenu.style.display = "inline-flex";
     contextMenu.style.left = `${mouseX}px`;
@@ -50,11 +60,13 @@ function handleContextMenu(idx) {
 function showInfoSelected(evt) {
     // console.log(mouseX, mouseY);
     // console.log(messages);
-    alert(JSON.stringify(messages[selectedMessage]));
+    alert(JSON.stringify(Data.data.messages[activeUser].messages[selectedMessage]));
     hideContextMenu();
 }
 
 function deleteSelected(evt) {
+    // console.log(Data.data.messages[activeUser].messages[selectedMessage].id);
+    deleteMessage(metaData, Data.data.messages[activeUser].messages[selectedMessage].id, () => {}, () => {});
     hideContextMenu();
 }
 
@@ -65,28 +77,33 @@ function goBottom() {
 </script>
 
 <template>
-    <div class="message-container" v-if="!noData" @click="handleMouseClick" @mousemove="handleMouseMove">
-        <div class="container-header">
-            <MessageContainerHeader :active-user="activeUser" />
-        </div>
-        <template v-for="(msg, index) in Data.data.messages[activeUser].messages" :key="index">
-            <div @contextmenu.prevent="handleContextMenu(index)">
-                <MessageCard :group-chat="isGroup" :active-user="activeUser" :message-index="index" />
+
+        <div class="message-container" v-if="!noData" @click="handleMouseClick" @mousemove="handleMouseMove">
+            <div class="container-header">
+                <MessageContainerHeader :active-user="activeUser" />
             </div>
-        </template>
+            <div v-if="profile">
+                <h1>This is your profile</h1>
+            </div>
+            <div v-else>
+                <template v-for="(msg, index) in Data.data.messages[activeUser].messages" :key="index">
+                    <div @contextmenu.prevent="handleContextMenu(index)">
+                        <MessageCard :group-chat="isGroup" :active-user="activeUser" :message-index="index" />
+                    </div>
+                </template>
+                <MessageContainerFooter @go-bottom="goBottom" :meta-data="metaData" />
+            </div>
+        </div>
+        <div class="message-container" v-else @click="handleMouseClick" @mousemove="handleMouseMove">
+            No Data
+        </div>
 
-        <MessageContainerFooter @go-bottom="goBottom" :meta-data="metaData" />
-    </div>
-    <div class="message-container" v-else @click="handleMouseClick" @mousemove="handleMouseMove">
-        No Data
-    </div>
+        <a id="scroll-down" hidden></a>
 
-    <a id="scroll-down" hidden></a>
-
-    <div id="context-menu-container">
-        <div id="menu-show-info" class="menu-item" @click="showInfoSelected">Show Information</div>
-        <div id="menu-delete" class="menu-item" @click="deleteSelected">Delete</div>
-    </div>
+        <div id="context-menu-container">
+            <div id="menu-show-info" class="menu-item" @click="showInfoSelected">Show Information</div>
+            <div id="menu-delete" class="menu-item" @click="deleteSelected">Delete</div>
+        </div>
 </template>
 
 <style scoped>
