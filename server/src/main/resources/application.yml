@@ -30,3 +30,10 @@ spring:
   #           clientId: 3ac633b26d99b0ce3335
   #           # DO NOT PUBLISH `clientSecret`
   #           clientSecret: e5609c8e901b5627eb82cf5ad7f55529b3c36c20
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+      hibernate: ERROR

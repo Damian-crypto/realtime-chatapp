@@ -5,6 +5,7 @@ import { Data } from './components/store';
 import { test, getData, getToken } from './utils/utils';
 import MessageContainer from './components/MessageContainer.vue';
 import MessageNavigator from './components/MessageNavigator.vue';
+import LoginForm from './components/LoginForm.vue';
 
 // data -> fetch data for users [1, 2, 3, 10]
 // var data = {
@@ -168,11 +169,19 @@ const metaData = {
     activeUser: -1
 };
 
+var showLoginPage = ref(false);
+
 test(metaData);
-getToken(metaData);
-getData(metaData, (res) => {
+
+const dataReceived = (res) => {
     Data.data = res;
-});
+};
+
+const dataNotReceived = (err) => {
+    showLoginPage.value = true;
+};
+
+getData(metaData, dataReceived, dataNotReceived);
 
 var prevActiveUser = null;
 if (localStorage.getItem("activeUser") != null) {
@@ -192,37 +201,47 @@ if (prevActiveUser == null) {
 function activeUserChangeCallback(userId) {
     // console.log(typeof(userId));
     // console.log(`User changed from ${activeUser.value} to ${userId}`);
-
     activeUser.value = userId;
     metaData.activeUser = activeUser.value;
     localStorage.setItem("activeUser", activeUser.value);
 }
+
+function reAssignToken() {
+    getToken(metaData);
+    location.reload("/");
+}
 </script>
 
 <template>
-    <div v-if="Object.keys(data.data).length != 0">
-        <div class="app-window">
-            <div class="navigator">
-                <div class="nav-items">
-                    <MessageNavigator
-                        :active-user="activeUser"
+    <template v-if="!showLoginPage">
+        <div v-if="Object.keys(data.data).length != 0">
+            <div class="app-window">
+                <div class="navigator">
+                    <div class="nav-items">
+                        <MessageNavigator
+                            :active-user="activeUser"
+                            :meta-data="metaData"
+                            :key="activeUser"
+                            @active-user-changed="activeUserChangeCallback" />
+                    </div>
+                </div>
+
+                <div class="container">
+                    <MessageContainer
                         :key="activeUser"
-                        @active-user-changed="activeUserChangeCallback" />
+                        :active-user="activeUser"
+                        :meta-data="metaData"
+                        />
                 </div>
             </div>
-
-            <div class="container">
-                <MessageContainer
-                    :key="activeUser"
-                    :active-user="activeUser"
-                    :meta-data="metaData"
-                    />
-            </div>
         </div>
-    </div>
-    <div v-else>
-        <h1 style="color: white">Client - No Data</h1>
-    </div>
+        <div v-else>
+            <h1 style="color: white">Client - No Data</h1>
+        </div>
+    </template>
+    <template v-else>
+        <LoginForm @re-assign-token="reAssignToken" />
+    </template>
 </template>
 
 <style scoped>

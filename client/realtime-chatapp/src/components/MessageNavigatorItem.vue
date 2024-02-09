@@ -1,26 +1,32 @@
 <script setup>
+import { Data } from './store';
 import ColorList from './ColorList.vue';
 
-const props = defineProps(['messages', 'activated', 'users', 'userId']);
+const props = defineProps(['messagesIndex', 'activeUser', 'me', 'activated']);
 
-const users = props.users;
-const userID = props.userId;
-const userName = users[userID]['userName'];
-const messageCount = props.messages.length;
+var index, messageCount, lastMessage, content;
+const users = Data.data.users;
 const activated = props.activated;
+
+if (!props.me) {
+    index = props.messagesIndex;
+    messageCount = Data.data.messages[index].messages.length;
+
+    if (messageCount > 0) {
+        lastMessage = Data.data.messages[index].messages[messageCount - 1];
+        content = lastMessage.content;
+    } else {
+        content = new Date(users[index]['lastOnline']).toLocaleString();
+    }
+} else {
+    index = props.activeUser;
+    content = "Profile and Settings";
+}
+
+const userName = users[index]['userName'];
 
 const randomColors = ColorList.colors;
 const color = randomColors[userName[0].charCodeAt(0) - 'A'.charCodeAt(0)];
-
-var lastMessage = null;
-var content = null;
-
-if (messageCount > 0) {
-    lastMessage = props.messages[messageCount - 1];
-    content = lastMessage.content;
-} else {
-    content = new Date(users[userID]['lastOnline']).toLocaleString();
-}
 </script>
 
 <template>
