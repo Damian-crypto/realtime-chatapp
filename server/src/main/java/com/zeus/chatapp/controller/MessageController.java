@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zeus.chatapp.dto.MessageData;
 import com.zeus.chatapp.dto.MessageDataResponseDTO;
 import com.zeus.chatapp.model.AuthenticationRequest;
 import com.zeus.chatapp.model.AuthenticationResponse;
-import com.zeus.chatapp.model.MessageData;
 import com.zeus.chatapp.model.MessagePayload;
 import com.zeus.chatapp.model.UserData;
 import com.zeus.chatapp.repository.MessageRepository;
@@ -118,9 +118,26 @@ public class MessageController {
             messageRepository.save(payload);
             newMessage.setTimestamp(payload.getTimestamp());
             newMessage.setSender(senderId);
+        } else {
+            throw new IllegalStateException("New message created an empty message payload!");
         }
 
         return ResponseEntity.ok(newMessage);
+    }
+
+    @PostMapping("/delete-message/{userId}")
+    public ResponseEntity<String> deleteMessage(
+        @PathVariable Long userId,
+        @RequestBody @NonNull MessageData messageData
+        ) {
+        var msgPayload = MessagePayload.builder().messageId(messageData.getId()).build();
+        if (msgPayload != null) {
+            messageRepository.delete(msgPayload);
+        } else {
+            throw new IllegalStateException("Delete message created an empty message payload!");
+        }
+
+        return ResponseEntity.ok("Message deleted successfully!");
     }
 
     @PostMapping("/authenticate")
@@ -145,7 +162,7 @@ public class MessageController {
             .findUserByUsername(authenticationRequest.getUsername())
             .orElseThrow(
                 () -> new UsernameNotFoundException(
-                    authenticationRequest.getUsername() + " username is not found(🫤)!"
+                    authenticationRequest.getUsername() + " username is not found!"
                 )
             );
 

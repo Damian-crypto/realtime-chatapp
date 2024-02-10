@@ -1,5 +1,7 @@
 package com.zeus.chatapp.model;
 
+import java.util.Date;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,6 +42,7 @@ public class User {
             nullable = false // to indicate that mobile field cannot be null
     )
     private String mobileNo;
+    private Date lastOnline;
 
     // Spring Security need these...
     @Column(

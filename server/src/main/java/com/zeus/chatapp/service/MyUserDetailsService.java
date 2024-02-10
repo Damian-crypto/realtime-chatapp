@@ -1,5 +1,6 @@
 package com.zeus.chatapp.service;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,10 @@ public class MyUserDetailsService implements UserDetailsService {
         Optional<User> user = userRepository.findUserByUsername(userName);
 
         user.orElseThrow(() -> new UsernameNotFoundException(userName + " is not found in the database!"));
+
+        var updatedUser = user.get();
+        updatedUser.setLastOnline(new Date());
+        userRepository.save(updatedUser);
 
         return user.map(MyUserDetails::new).get();
     }

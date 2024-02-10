@@ -3,7 +3,6 @@ package com.zeus.chatapp.dto;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.zeus.chatapp.model.MessageData;
 import com.zeus.chatapp.model.UserData;
 
 import lombok.AllArgsConstructor;

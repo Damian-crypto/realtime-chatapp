@@ -1,27 +1,32 @@
+# Overall server configurations
 server:
-  port: 8080
+  port: 9999
   error:
     include-message: always
 
+# Spring context configurations
 spring:
-  # h2:
-    # console:
-      # enabled: true
+  h2:
+    console:
+      enabled: true
 
+  # Database configurations
   datasource:
-    # url: jdbc:h2:mem:chat_db
-    # driverClassName: org.h2.Driver
-    url: jdbc:mysql://localhost:3306/chat_db
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:h2:mem:chat_db
+    driverClassName: org.h2.Driver
+    # url: jdbc:mysql://localhost:3306/chat_db
+    # driver-class-name: com.mysql.cj.jdbc.Driver
     username: damian
     password: 1234
   
+  # Hibernate configurations
   jpa:
     hibernate:
       ddl-auto: create
-    # database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
 
+  # Security configurations
   # security:
   #   oauth2:
   #     client:
@@ -31,9 +36,15 @@ spring:
   #           # DO NOT PUBLISH `clientSecret`
   #           clientSecret: e5609c8e901b5627eb82cf5ad7f55529b3c36c20
 
+  # File upload configurations
+  # servlet:
+  #   multipart:
+  #     max-file-size: 1024KB
+  #     max-request-size: 1024KB
+
+# Logging configurations
 logging:
   level:
     org:
-      springframework:
-        web: DEBUG
       hibernate: ERROR
+    web: DEBUG

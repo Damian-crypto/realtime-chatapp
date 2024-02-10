@@ -1,4 +1,4 @@
-package com.zeus.chatapp.model;
+package com.zeus.chatapp.dto;
 
 import java.util.Date;
 import lombok.AllArgsConstructor;
