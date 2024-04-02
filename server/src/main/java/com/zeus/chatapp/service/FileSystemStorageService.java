@@ -20,7 +20,7 @@ import com.zeus.chatapp.config.StorageProperties;
 import com.zeus.chatapp.exception.StorageException;
 import com.zeus.chatapp.exception.StorageFileNotFoundException;
 
-@Service
+// @Service
 public class FileSystemStorageService implements StorageService {
 
     private final Path rootLocation;
