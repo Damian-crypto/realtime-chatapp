@@ -84,6 +84,14 @@ function goBottom() {
             </div>
             <div v-if="profile">
                 <h1>This is your profile</h1>
+                <ul>
+                    <li>Name</li>
+                    <li>Password</li>
+                    <li>Email</li>
+                    <li>Phone Number</li>
+                    <li>Profile Picture</li>
+                    <li>Logout</li>
+                </ul>
             </div>
             <div v-else>
                 <template v-for="(msg, index) in Data.data.messages[activeUser].messages" :key="index">

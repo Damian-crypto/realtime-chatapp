@@ -8,157 +8,82 @@ import MessageNavigator from './components/MessageNavigator.vue';
 import LoginForm from './components/LoginForm.vue';
 
 // data -> fetch data for users [1, 2, 3, 10]
-// var data = {
-//     users: {
-//         1: {
-//             userName: 'Damian Chamel',
-//             lastOnline: '2024-02-06T06:06:01.874+00:00'
-//         },
-//         2: {
-//             userName: 'John Doe',
-//             lastOnline: '2024-02-06T06:07:01.874+00:00'
-//         },
-//         3: {
-//             userName: 'Alen Max',
-//             lastOnline: '2024-01-16T01:06:01.874+00:00'
-//         },
-//         4: {
-//             userName: 'Simon Ortiz',
-//             lastOnline: '2023-08-14T06:06:01.874+00:00'
-//         },
-//         10: {
-//             userName: 'Our Family',
-//             groupMembers: [1, 2, 3]
-//         }
-//     },
-//     messages: {
-//         2: {
-//             messages: [
-//                 {
-//                     id: 0,
-//                     sender: 1,
-//                     receiver: 2,
-//                     content: `Hello!!!!! Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-//             ornare nibh pellentesque est. Imperdiet gravida et 
-//             ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-//             praesent ac senectus convallis`,
-//                     timestamp: '12:12 PM 27/01/2024'
-//                 },
-//                 {
-//                     id: 1,
-//                     id: 1,
-//                     sender: 2,
-//                     receiver: 1,
-//                     content: `Hi Hi! Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-//             ornare nibh pellentesque est. Imperdiet gravida et 
-//             ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-//             praesent ac senectus convallis`,
-//                     timestamp: '1:00 PM 27/01/2024'
-//                 }
-//             ]
-//         },
-//         3: {
-//             messages: [
-//                 {
-//                     id: 0,
-//                     sender: 1,
-//                     receiver: 3,
-//                     content: `😂 Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-//             ornare nibh pellentesque est. Imperdiet gravida et 
-//             ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-//             praesent ac senectus convallis`,
-//                     timestamp: '12:12 PM 27/01/2024'
-//                 },
-//                 {
-//                     id: 1,
-//                     sender: 1,
-//                     receiver: 3,
-//                     content: `😊 Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-//             ornare nibh pellentesque est. Imperdiet gravida et 
-//             ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-//             praesent ac senectus convallis`,
-//                     timestamp: '1:00 PM 27/01/2024'
-//                 }
-//             ]
-//         },
-//         4: {
-//             messages: [
-//                 {
-//                     id: 0,
-//                     sender: 4,
-//                     receiver: 1,
-//                     content: `<> Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-//             ornare nibh pellentesque est. Imperdiet gravida et 
-//             ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-//             praesent ac senectus convallis`,
-//                     timestamp: '12:12 PM 27/01/2024'
-//                 }
-//             ]
-//         },
-//         // 10: {
-//         //     userData: {
-//         //         userID: 10
-//         //     },
-//         //     messages: [
-//         //         {
-//         //             id: 0,
-//         //             sender: 3,
-//         //             content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-//         //     ornare nibh pellentesque est. Imperdiet gravida et 
-//         //     ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-//         //     praesent ac senectus convallis`,
-//         //             timestamp: '12:12 PM 27/01/2024'
-//         //         },
-//         //         {
-//         //             id: 1,
-//         //             sender: 2,
-//         //             content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-//         //     ornare nibh pellentesque est. Imperdiet gravida et 
-//         //     ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-//         //     praesent ac senectus convallis`,
-//         //             timestamp: '1:00 PM 27/01/2024'
-//         //         },
-//         //         {
-//         //             id: 2,
-//         //             sender: 3,
-//         //             content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-//         //     ornare nibh pellentesque est. Imperdiet gravida et 
-//         //     ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-//         //     praesent ac senectus convallis`,
-//         //             timestamp: '1:00 PM 27/01/2024'
-//         //         },
-//         //         {
-//         //             id: 3,
-//         //             sender: 0,
-//         //             content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-//         //     ornare nibh pellentesque est. Imperdiet gravida et 
-//         //     ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-//         //     praesent ac senectus convallis`,
-//         //             timestamp: '1:00 PM 27/01/2024'
-//         //         },
-//         //         {
-//         //             id: 4,
-//         //             sender: 1,
-//         //             content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-//         //     ornare nibh pellentesque est. Imperdiet gravida et 
-//         //     ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-//         //     praesent ac senectus convallis`,
-//         //             timestamp: '1:00 PM 27/01/2024'
-//         //         },
-//         //         {
-//         //             id: 5,
-//         //             sender: 0,
-//         //             content: `Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus 
-//         //     ornare nibh pellentesque est. Imperdiet gravida et 
-//         //     ullamcorper justo risus. Placerat vitae a nulla imperdiet 
-//         //     praesent ac senectus convallis`,
-//         //             timestamp: '1:00 PM 27/01/2024'
-//         //         }
-//         //     ]
-//         // }
-//     }
-// };
+const sample = {
+	"users": {
+		"1": {
+			"userId": 1,
+			"userName": "Damian Chamel",
+			"lastOnline": "2024-02-10T06:13:02.984+00:00"
+		},
+		"2": {
+			"userId": 2,
+			"userName": "Alex Max",
+			"lastOnline": "2024-02-10T06:13:02.984+00:00"
+		},
+		"3": {
+			"userId": 3,
+			"userName": "Simon Ortiz",
+			"lastOnline": "2024-02-10T06:13:02.984+00:00"
+		},
+		"4": {
+			"userId": 4,
+			"userName": "John Doe",
+			"lastOnline": "2024-02-10T06:13:02.984+00:00"
+		}
+	},
+	"messages": {
+		"2": {
+			"messages": [
+				{
+					"id": 1,
+					"sender": 1,
+					"receiver": 2,
+					"content": "Hello!!!!! Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus \r\nornare nibh pellentesque est. Imperdiet gravida et \r\nullamcorper justo risus. Placerat vitae a nulla imperdiet \r\npraesent ac senectus convallis",
+					"timestamp": "2024-02-10T06:09:00.885+00:00"
+				},
+				{
+					"id": 2,
+					"sender": 2,
+					"receiver": 1,
+					"content": "Hi Hi! Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus \r\nornare nibh pellentesque est. Imperdiet gravida et \r\nullamcorper justo risus. Placerat vitae a nulla imperdiet \r\npraesent ac senectus convallis",
+					"timestamp": "2024-02-10T06:09:00.885+00:00"
+				}
+			]
+		},
+		"3": {
+			"messages": [
+				{
+					"id": 3,
+					"sender": 1,
+					"receiver": 3,
+					"content": "😂 Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus \r\nornare nibh pellentesque est. Imperdiet gravida et \r\nullamcorper justo risus. Placerat vitae a nulla imperdiet \r\npraesent ac senectus convallis",
+					"timestamp": "2024-02-10T06:09:00.885+00:00"
+				},
+				{
+					"id": 4,
+					"sender": 1,
+					"receiver": 3,
+					"content": "😊 Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus \r\nornare nibh pellentesque est. Imperdiet gravida et \r\nullamcorper justo risus. Placerat vitae a nulla imperdiet \r\npraesent ac senectus convallis",
+					"timestamp": "2024-02-10T06:09:00.885+00:00"
+				}
+			]
+		},
+		"4": {
+			"messages": [
+				{
+					"id": 5,
+					"sender": 4,
+					"receiver": 1,
+					"content": "<> Lorem ipsum dolor sit amet consectetur. Tellus proin eu purus \r\nornare nibh pellentesque est. Imperdiet gravida et \r\nullamcorper justo risus. Placerat vitae a nulla imperdiet \r\npraesent ac senectus convallis",
+					"timestamp": "2024-02-10T06:09:00.885+00:00"
+				}
+			]
+		}
+	}
+};
 
+
+Data.data = sample;
 const data = Data;
 
 const BASE_URL = 'http://10.0.0.5:8080';
@@ -181,7 +106,7 @@ const dataNotReceived = (err) => {
     showLoginPage.value = true;
 };
 
-getData(metaData, dataReceived, dataNotReceived);
+// getData(metaData, dataReceived, dataNotReceived);
 
 var prevActiveUser = null;
 if (localStorage.getItem("activeUser") != null) {

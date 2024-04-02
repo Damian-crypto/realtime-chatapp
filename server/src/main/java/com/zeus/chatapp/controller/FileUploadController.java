@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.zeus.chatapp.exception.StorageFileNotFoundException;
 import com.zeus.chatapp.service.StorageService;
 
-@Controller
+// @Controller
 public class FileUploadController {
 
     private final StorageService storageService;

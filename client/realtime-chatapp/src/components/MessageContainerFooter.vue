@@ -47,6 +47,7 @@ function sendMessage() {
 <template>
     <div class="input-msg-bar">
         <input id="txt-msg" type="text" placeholder="Type your message here..." @change="sendMessage" v-model="txtMsg">
+        <div class="btn-send"><span class="file-icon">+</span></div>
         <div class="btn-send" @click="sendMessage"><img class="send-icon" src="/icons/send_icon.png"></div>
     </div>
 </template>
@@ -80,6 +81,16 @@ function sendMessage() {
     /* border: 1px solid red; */
 
     height: 50px;
+}
+
+.file-icon {
+    /* border: 1px solid red; */
+    /* display: flex; */
+    /* text-align: center; */
+    padding: 8px;
+    padding-left: 13px;
+    line-height: 25px;
+    font-size: 48px;
 }
 
 .btn-send {

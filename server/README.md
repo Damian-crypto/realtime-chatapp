@@ -16,6 +16,7 @@
 
 ## Requests and Responses
 
+
 ### Get all messages specific to a user
 
 Request: `GET /get-messages/{id}`
